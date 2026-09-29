@@ -1,0 +1,185 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+Withdraw Funds
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\withdraw.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="withdraw-page">
+
+    <div class="page-header">
+
+        <h1>Withdrawal Center</h1>
+
+        <p>
+            Withdraw funds securely from your wallet.
+        </p>
+
+    </div>
+
+    <div class="balance-banner">
+
+        <div>
+
+            <h3>Available Wallet Balance</h3>
+
+            <h1>₹ {{ wallet.balance }}</h1>
+
+        </div>
+
+    </div>
+
+    <div class="product-grid">
+
+        <a href="#" class="product-card">
+
+            <h3>Quick Withdrawal</h3>
+
+            <p>
+                Instantly withdraw funds from your wallet.
+            </p>
+
+        </a>
+
+        <a href="{% url 'scheduled_withdrawal' %}" class="product-card">
+
+            <h3>Scheduled Withdrawal</h3>
+
+            <p>
+                Schedule withdrawals for a future date.
+            </p>
+
+        </a>
+
+        <a href="{% url 'withdrawal_history' %}" class="product-card">
+
+            <h3>Withdrawal History</h3>
+
+            <p>
+                View all previous withdrawal records.
+            </p>
+
+        </a>
+
+    </div>
+    <div class="withdraw-layout">
+
+        <div class="withdraw-card">
+
+            <h2>Quick Withdrawal</h2>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="quick-buttons">
+
+                    <button type="button" onclick="setAmount(500)">
+                        ₹500
+                    </button>
+
+                    <button type="button" onclick="setAmount(1000)">
+                        ₹1000
+                    </button>
+
+                    <button type="button" onclick="setAmount(5000)">
+                        ₹5000
+                    </button>
+
+                    <button type="button" onclick="setAmount(10000)">
+                        ₹10000
+                    </button>
+
+                </div>
+
+                <label>
+                    Withdrawal Amount
+                </label>
+
+                <input id="amount" type="number" name="amount" min="1" step="0.01" placeholder="Enter amount" required>
+
+                <label for="category">
+                    Category
+                </label>
+
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Select Category</option>
+                    <option value="Food">Food</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Education">Education</option>
+                    <option value="Investment">Investment</option>
+                    <option value="Subscription">Subscription</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Family">Family</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <button class="withdraw-btn" type="submit">
+
+                    Withdraw Now
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="info-card">
+
+            <h2>Withdrawal Guidelines</h2>
+
+            <ul>
+
+                <li>Withdrawals cannot exceed wallet balance.</li>
+
+                <li>Every withdrawal is logged.</li>
+
+                <li>AI fraud monitoring remains active.</li>
+
+                <li>Large withdrawals may trigger alerts.</li>
+
+                <li>Protected mode enabled for elder accounts.</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    {% if messages %}
+
+    {% for message in messages %}
+
+    <div class="message">
+
+        {{ message }}
+
+    </div>
+
+    {% endfor %}
+
+    {% endif %}
+
+</div>
+
+<script>
+
+    function setAmount(value) {
+
+        document.getElementById("amount").value = value;
+
+    }
+
+</script>
+
+{% endblock %}

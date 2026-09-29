@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+.main-content,
+.main-content *{
+    font-family:'JetBrains Mono', monospace;
+}
+
+.deposit-page{
+    width:100%;
+}
+
+.page-header{
+    margin-bottom:30px;
+}
+
+.page-header p{
+    color:gray;
+}
+
+.balance-banner{
+    background:#0B1026;
+    color:white;
+    padding:30px;
+    border-radius:20px;
+    margin-bottom:30px;
+}
+
+.products-section{
+    margin-bottom:35px;
+}
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.product-card{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    text-decoration:none;
+    color:black;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    border:1px solid #E2E8F0;
+    transition:0.3s;
+}
+
+.product-card:hover{
+    transform:translateY(-4px);
+}
+
+.deposit-layout{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:25px;
+    margin-top:30px;
+}
+
+.deposit-card,
+.info-card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    border:1px solid #E2E8F0;
+}
+
+.quick-buttons{
+    display:flex;
+    gap:10px;
+    margin:20px 0;
+    flex-wrap:wrap;
+}
+
+.quick-buttons button{
+    border:1px solid #D1D5DB;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    background:#E5E7EB;
+    font-weight:600;
+    transition:transform 0.12s ease, box-shadow 0.12s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.quick-buttons button:hover{
+    background:#2563EB;
+    color:white;
+    border-color:transparent;
+    transform:translateY(1px);
+    box-shadow:0 4px 10px rgba(37,99,235,0.28);
+}
+
+.deposit-card input{
+    width:100%;
+    padding:14px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    margin-top:10px;
+    margin-bottom:20px;
+}
+
+.deposit-btn{
+    width:100%;
+    border:1px solid rgba(255,255,255,0.15);
+    background:#2563EB;
+    color:white;
+    padding:15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    box-shadow:0 2px 0 rgba(0,0,0,0.15), 0 6px 14px rgba(37,99,235,0.25);
+    transition:transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.deposit-btn:hover{
+    transform:translateY(1px);
+    box-shadow:0 1px 0 rgba(0,0,0,0.15), 0 4px 10px rgba(37,99,235,0.28);
+}
+
+.info-card ul{
+    margin-top:15px;
+    padding-left:20px;
+}
+
+.info-card li{
+    margin-bottom:10px;
+}
+
+.message{
+    margin-top:20px;
+    background:#dcfce7;
+    padding:15px;
+    border-radius:10px;
+}

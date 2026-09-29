@@ -1,0 +1,128 @@
+{% extends 'dashboard_base.html' %}
+
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\consumer_dashboard.css' %}">
+{% endblock %}
+{% block title %}
+Consumer Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="topbar">
+
+    <h1>
+        Welcome,
+        {{ user.first_name }}
+    </h1>
+
+</div>
+
+{% if due_withdrawals_count > 0 %}
+<div class="scheduled-withdrawal-alert">
+    <div class="alert-icon">🔔</div>
+    <div class="alert-details">
+        <h3>Scheduled Withdrawal Ready</h3>
+        {% if due_withdrawals_count == 1 %}
+            <p>₹{{ single_due_withdrawal.amount }} scheduled for {{ formatted_due_time }}</p>
+        {% else %}
+            <p>You have {{ due_withdrawals_count }} scheduled withdrawals ready for processing.</p>
+        {% endif %}
+        <a href="{% url 'scheduled_withdrawal' %}?process=true" class="process-btn">Process Due Withdrawals</a>
+    </div>
+</div>
+{% endif %}
+
+<!-- CARDS -->
+
+<div class="cards">
+
+    <div class="card">
+
+        <h3>Wallet Balance</h3>
+
+        <h2>
+            ₹ {{ wallet.balance }}
+        </h2>
+
+    </div>
+
+    <div class="card">
+
+        <h3>Wellness Score</h3>
+
+        <h2>
+            {% if wellness %}
+            {{ wellness.score|floatformat:1 }}/100
+            {% else %}
+            --
+            {% endif %}
+        </h2>
+
+    </div>
+
+    <div class="card">
+
+        <h3>Risk Level</h3>
+
+        <h2>
+            {% if debt_exp %}
+            {{ debt_exp.prediction }}
+            {% else %}
+            --
+            {% endif %}
+        </h2>
+
+    </div>
+
+</div>
+
+<!-- TRANSACTIONS -->
+
+<div class="section">
+
+    <h2>
+        Recent Transactions
+    </h2>
+
+    <table>
+
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Amount</th>
+        </tr>
+
+        {% for t in transactions %}
+
+        <tr>
+
+            <td>{{ t.created_at }}</td>
+
+            <td>{{ t.transaction_type }}</td>
+
+            <td>₹ {{ t.amount }}</td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+
+            <td colspan="3">
+                No transactions available
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+
+
+{% endblock %}

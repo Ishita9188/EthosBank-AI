@@ -1,0 +1,179 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+Scheduled Withdrawal - EthosBank AI
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\scheduled_withdrawal.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="scheduled-page">
+    <!-- Header Section -->
+    <div class="page-header">
+        <h1>Scheduled Withdrawals</h1>
+        <p>Schedule your withdrawals for future dates and manage your automated banking plans.</p>
+    </div>
+
+    <!-- Balance Banner -->
+    <div class="balance-banner">
+        <div class="balance-info">
+            <h3>Current Wallet Balance</h3>
+            <h1>₹ {{ wallet.balance }}</h1>
+        </div>
+        <div class="process-action">
+            <a href="?process=true" class="process-btn">Process Due Withdrawals</a>
+        </div>
+    </div>
+
+    <!-- Form & Info Layout -->
+    <div class="page-layout">
+        <!-- Scheduling Form Card -->
+        <div class="card form-card">
+            <h2>Schedule New Withdrawal</h2>
+            <form method="POST" action="{% url 'scheduled_withdrawal' %}">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="amount">Withdrawal Amount (₹)</label>
+                    <input type="number" id="amount" name="amount" min="100.01" step="0.01" placeholder="Enter amount (min. ₹100)" required>
+                    
+                    <div class="quick-amounts">
+                        <button type="button" onclick="setAmount(500)">₹500</button>
+                        <button type="button" onclick="setAmount(1000)">₹1000</button>
+                        <button type="button" onclick="setAmount(5000)">₹5000</button>
+                        <button type="button" onclick="setAmount(10000)">₹10000</button>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="withdrawal_date">Withdrawal Date</label>
+                        <input type="date" id="withdrawal_date" name="withdrawal_date" required>
+                    </div>
+                    <div class="form-group col">
+                        <label for="withdrawal_time">Withdrawal Time</label>
+                        <input type="time" id="withdrawal_time" name="withdrawal_time" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="purpose">Purpose</label>
+                    <select id="purpose" name="purpose" required>
+                        <option value="" disabled selected>Select Purpose</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Bill Payment">Bill Payment</option>
+                        <option value="Investment">Investment</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="remarks">Remarks (Optional)</label>
+                    <textarea id="remarks" name="remarks" rows="3" placeholder="Add optional remarks..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Schedule Withdrawal</button>
+            </form>
+        </div>
+
+        <!-- Rules / Guidelines Card -->
+        <div class="card info-card">
+            <h2>Scheduling Guidelines</h2>
+            <ul>
+                <li><strong>Minimum Amount:</strong> Withdrawals must be greater than ₹100.</li>
+                <li><strong>Balance Check:</strong> You cannot schedule an amount exceeding your current balance.</li>
+                <li><strong>Execution Time:</strong> Schedules cannot be created in the past.</li>
+                <li><strong>Manual Processing:</strong> Balance is not deducted until withdrawals are processed. Use the <em>Process Due Withdrawals</em> button when they become due.</li>
+                <li><strong>Cancellation:</strong> You can cancel any upcoming scheduled withdrawal before it gets processed.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Messages Block -->
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Upcoming Scheduled Withdrawals Section -->
+    <div class="list-section">
+        <h2>Upcoming Scheduled Withdrawals</h2>
+        <div class="schedule-grid">
+            {% for w in upcoming_withdrawals %}
+                <div class="schedule-card pending">
+                    <div class="card-header">
+                        <span class="purpose-tag">{{ w.purpose }}</span>
+                        <span class="status-badge {{ w.status|lower }}">{{ w.status }}</span>
+                    </div>
+                    <div class="card-amount">₹ {{ w.amount }}</div>
+                    <div class="card-time">
+                        <span class="icon">📅</span> {{ w.scheduled_datetime|date:"d M Y" }}
+                        <span class="icon" style="margin-left:10px;">⏰</span> {{ w.scheduled_datetime|date:"h:i A" }}
+                    </div>
+                    {% if w.remarks %}
+                        <div class="card-remarks">"{{ w.remarks }}"</div>
+                    {% endif %}
+                    <div class="card-actions">
+                        <a href="{% url 'cancel_withdrawal' w.id %}" class="cancel-btn" onclick="return confirm('Are you sure you want to cancel this scheduled withdrawal?')">Cancel</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    <p>No upcoming scheduled withdrawals found.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- History / Completed / Cancelled Withdrawals Section -->
+    <div class="list-section" style="margin-top: 40px;">
+        <h2>Processed & Cancelled Withdrawals</h2>
+        <div class="schedule-grid">
+            {% for w in past_withdrawals %}
+                <div class="schedule-card archived">
+                    <div class="card-header">
+                        <span class="purpose-tag">{{ w.purpose }}</span>
+                        <span class="status-badge {{ w.status|lower }}">{{ w.status }}</span>
+                    </div>
+                    <div class="card-amount">₹ {{ w.amount }}</div>
+                    <div class="card-time">
+                        <span class="icon">📅</span> {{ w.scheduled_datetime|date:"d M Y" }}
+                        <span class="icon" style="margin-left:10px;">⏰</span> {{ w.scheduled_datetime|date:"h:i A" }}
+                    </div>
+                    {% if w.remarks %}
+                        <div class="card-remarks">"{{ w.remarks }}"</div>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    <p>No processed or cancelled withdrawals found.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+function setAmount(value) {
+    document.getElementById("amount").value = value;
+}
+
+// Automatically set minimum date of date input to today
+document.addEventListener("DOMContentLoaded", function() {
+    const dateInput = document.getElementById("withdrawal_date");
+    if(dateInput) {
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.min = today;
+    }
+});
+</script>
+{% endblock %}

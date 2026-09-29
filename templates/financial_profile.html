@@ -1,0 +1,512 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+Financial Profile - EthosBank AI
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\financial_profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+
+    <!-- HEADER -->
+    <div class="profile-header">
+        <h1>Financial Profile</h1>
+        <p>Complete your financial profile to enable AI-powered financial wellness analysis and personalized
+            recommendations.</p>
+    </div>
+
+    <!-- ERROR MESSAGES -->
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="alert-box error">
+        <span>⚠️</span>
+        <span>{{ message }}</span>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <div id="js-error-box" class="alert-box error" style="display: none;">
+        <span>⚠️</span>
+        <span id="js-error-message"></span>
+    </div>
+
+    <!-- PROFILE FORM -->
+    <form id="profileForm" method="POST" onsubmit="return validateForm()">
+        {% csrf_token %}
+
+        <div class="form-grid">
+
+            <!-- SECTION 1: PERSONAL INFORMATION (Read-only) -->
+            <div class="profile-card">
+                <div class="card-title">
+                    <!-- Lock Icon SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    Personal Information (Read Only)
+                </div>
+                <div class="fields-grid fields-grid-2">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" value="{{ user.first_name }} {{ user.last_name }}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Customer ID</label>
+                        <input type="text" value="{{ user.customer_id }}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="text" value="{{ user.email }}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input type="text" value="{{ user.mobile }}" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: EMPLOYMENT & INCOME -->
+            <div class="profile-card">
+                <div class="card-title">
+                    <!-- Briefcase Icon SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                    Employment & Income
+                </div>
+                <div class="fields-grid fields-grid-2">
+                    <div class="form-group">
+                        <label for="employment_type">Employment Type</label>
+                        <select id="employment_type" name="employment_type" required>
+                            <option value="Student" {% if is_student %}selected{% endif %}>Student</option>
+
+                            <option value="Salaried" {% if is_salaried %}selected{% endif %}>Salaried</option>
+
+                            <option value="Self-Employed" {% if is_self_employed %}selected{% endif %}>Self-Employed
+                            </option>
+
+                            <option value="Business Owner" {% if is_business_owner %}selected{% endif %}>Business Owner
+                            </option>
+
+                            <option value="Freelancer" {% if is_freelancer %}selected{% endif %}>Freelancer</option>
+
+                            <option value="Other" {% if is_other %}selected{% endif %}>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="occupation">Occupation</label>
+                        <input id="occupation" type="text" name="occupation"
+                            value="{{ profile.occupation|default_if_none:'' }}" placeholder="e.g. Software Engineer"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="monthly_income">Monthly Income (₹)</label>
+                        <input id="monthly_income" type="number" name="monthly_income"
+                            value="{{ profile.monthly_income|stringformat:'f' }}" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="other_monthly_income">Other Monthly Income (₹) - Optional</label>
+                        <input id="other_monthly_income" type="number" name="other_monthly_income"
+                            value="{{ profile.other_monthly_income|stringformat:'f' }}" min="0" step="0.01">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: FAMILY DETAILS -->
+            <div class="profile-card">
+                <div class="card-title">
+                    <!-- Users Icon SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    Family Details
+                </div>
+                <div class="fields-grid fields-grid-2">
+                    <div class="form-group">
+                        <label for="marital_status">Marital Status</label>
+                        <select id="marital_status" name="marital_status" required>
+
+                            <option value="Single" {% if is_single %}selected{% endif %}>
+                                Single
+                            </option>
+
+                            <option value="Married" {% if is_married %}selected{% endif %}>
+                                Married
+                            </option>
+
+                            <option value="Divorced" {% if is_divorced %}selected{% endif %}>
+                                Divorced
+                            </option>
+
+                            <option value="Widowed" {% if is_widowed %}selected{% endif %}>
+                                Widowed
+                            </option>
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dependents">Number of Dependents</label>
+                        <input id="dependents" type="number" name="dependents" value="{{ profile.dependents }}" min="0"
+                            step="1" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 5: SAVINGS HABITS -->
+            <div class="profile-card">
+                <div class="card-title">
+                    <!-- Piggy Bank Icon SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                    Savings Habits
+                </div>
+                <div class="fields-grid fields-grid-2">
+                    <div class="form-group">
+                        <label for="monthly_savings_target">Monthly Savings Target (₹)</label>
+                        <input id="monthly_savings_target" type="number" name="monthly_savings_target"
+                            value="{{ profile.monthly_savings_target|stringformat:'f' }}" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="existing_savings">Existing Savings (₹)</label>
+                        <input id="existing_savings" type="number" name="existing_savings"
+                            value="{{ existing_savings }}" min="0" step="0.01" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 4: FINANCIAL GOALS -->
+<div class="profile-card full-width-card">
+
+    <div class="card-title">
+        <!-- Target Icon SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="20"
+             height="20"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+        </svg>
+        Financial Goals
+    </div>
+
+    <div class="goals-grid">
+
+        <label class="checkbox-label">
+            <input type="checkbox"
+                   name="financial_goals"
+                   value="Emergency Fund"
+                   {% if is_emergency_fund %}checked{% endif %}>
+            <span>Emergency Fund</span>
+        </label>
+
+        <label class="checkbox-label">
+            <input type="checkbox"
+                   name="financial_goals"
+                   value="Higher Education"
+                   {% if is_higher_education %}checked{% endif %}>
+            <span>Higher Education</span>
+        </label>
+
+        <label class="checkbox-label">
+            <input type="checkbox"
+                   name="financial_goals"
+                   value="Buy a House"
+                   {% if is_buy_house %}checked{% endif %}>
+            <span>Buy a House</span>
+        </label>
+
+        <label class="checkbox-label">
+            <input type="checkbox"
+                   name="financial_goals"
+                   value="Buy a Vehicle"
+                   {% if is_buy_vehicle %}checked{% endif %}>
+            <span>Buy a Vehicle</span>
+        </label>
+
+        <label class="checkbox-label">
+            <input type="checkbox"
+                   name="financial_goals"
+                   value="Retirement Savings"
+                   {% if is_retirement %}checked{% endif %}>
+            <span>Retirement Savings</span>
+        </label>
+
+        <label class="checkbox-label">
+            <input type="checkbox"
+                   name="financial_goals"
+                   value="Vacation"
+                   {% if is_vacation %}checked{% endif %}>
+            <span>Vacation</span>
+        </label>
+
+        <label class="checkbox-label">
+            <input type="checkbox"
+                   name="financial_goals"
+                   value="Wealth Creation"
+                   {% if is_wealth %}checked{% endif %}>
+            <span>Wealth Creation</span>
+        </label>
+
+        <label class="checkbox-label">
+            <input type="checkbox"
+                   name="financial_goals"
+                   value="Other"
+                   id="other_goal_checkbox"
+                   onchange="toggleOtherGoalText()"
+                   {% if is_other_goal %}checked{% endif %}>
+            <span>Other</span>
+        </label>
+
+    </div>
+
+    <div class="form-group"
+         id="other_goal_wrapper"
+         {% if not is_other_goal %}style="display:none;"{% endif %}>
+
+        <label for="other_financial_goal">
+            Please Specify Goal
+        </label>
+
+        <input
+            id="other_financial_goal"
+            type="text"
+            name="other_financial_goal"
+            value="{{ profile.other_financial_goal|default_if_none:'' }}"
+            placeholder="Describe your goal">
+
+    </div>
+
+</div>
+
+            <!-- SECTION 6: LIABILITIES -->
+            <div class="profile-card">
+                <div class="card-title">
+                    <!-- Alert Circle SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    Liabilities
+                </div>
+                <div class="fields-grid fields-grid-2">
+                    <div class="form-group">
+                        <label for="home_loan">Home Loan (₹)</label>
+                        <input id="home_loan" type="number" name="home_loan"
+                            value="{{ profile.home_loan|stringformat:'f' }}" min="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="education_loan">Education Loan (₹)</label>
+                        <input id="education_loan" type="number" name="education_loan"
+                            value="{{ profile.education_loan|stringformat:'f' }}" min="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="personal_loan">Personal Loan (₹)</label>
+                        <input id="personal_loan" type="number" name="personal_loan"
+                            value="{{ profile.personal_loan|stringformat:'f' }}" min="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="credit_card_debt">Credit Card Debt (₹)</label>
+                        <input id="credit_card_debt" type="number" name="credit_card_debt"
+                            value="{{ profile.credit_card_debt|stringformat:'f' }}" min="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="other_debt">Other Debt (₹)</label>
+                        <input id="other_debt" type="number" name="other_debt"
+                            value="{{ profile.other_debt|stringformat:'f' }}" min="0" step="0.01">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 7: AI PERSONALIZATION -->
+            <div class="profile-card">
+                <div class="card-title">
+                    <!-- Cpu/AI Icon SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                        <rect x="9" y="9" width="6" height="6"></rect>
+                        <line x1="9" y1="1" x2="9" y2="4"></line>
+                        <line x1="15" y1="1" x2="15" y2="4"></line>
+                        <line x1="9" y1="20" x2="9" y2="23"></line>
+                        <line x1="15" y1="20" x2="15" y2="23"></line>
+                        <line x1="20" y1="9" x2="23" y2="9"></line>
+                        <line x1="20" y1="15" x2="23" y2="15"></line>
+                        <line x1="1" y1="9" x2="4" y2="9"></line>
+                        <line x1="1" y1="15" x2="4" y2="15"></line>
+                    </svg>
+                    AI Personalization
+                </div>
+                <div class="fields-grid">
+                    <div class="form-group">
+                        <label for="preferred_monthly_budget">Preferred Monthly Budget (₹)</label>
+                        <input id="preferred_monthly_budget" type="number" name="preferred_monthly_budget"
+                            value="{{ profile.preferred_monthly_budget|default_if_none:'' }}" min="0" step="0.01"
+                            required>
+                    </div>
+                    <div class="fields-grid-2">
+                        <div class="form-group">
+                            <label for="preferred_savings_percentage">Preferred Savings Percentage (%)</label>
+                            <input id="preferred_savings_percentage" type="number" name="preferred_savings_percentage"
+                                value="{{ profile.preferred_savings_percentage|default_if_none:'' }}" min="0" max="100"
+                                step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="spending_alert_limit">Spending Alert Limit (₹)</label>
+                            <input id="spending_alert_limit" type="number" name="spending_alert_limit"
+                                value="{{ profile.spending_alert_limit|default_if_none:'' }}" min="0.01" step="0.01"
+                                required>
+                        </div>
+                    </div>
+                    <div class="toggle-group">
+                        <div class="toggle-info">
+                            <span>Receive AI Recommendations</span>
+                            <small>Allow AI wellness engine to scan your financial habits and provide alerts.</small>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" name="receive_ai_recommendations" checked disabled>
+                            <span class="slider"></span>
+                        </label>
+
+                        <input type="hidden" name="receive_ai_recommendations"
+       value="on">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="action-card">
+            <a href="{% url 'consumer_dashboard' %}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save Profile</button>
+        </div>
+    </form>
+</div>
+
+<!-- SUCCESS MODAL POPUP -->
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == 'success' %}
+<div id="successModal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-icon">🎉</div>
+        <h2>Financial Profile Saved Successfully</h2>
+        <p>Your details have been registered into the EthosBank AI analysis system. You can now generate a customized
+            Financial Wellness report.</p>
+        <div class="modal-buttons">
+            <a href="#" class="btn btn-primary">Generate AI Wellness Report</a>
+            <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<script>
+    function toggleOtherGoalText() {
+        const checkbox = document.getElementById('other_goal_checkbox');
+        const wrapper = document.getElementById('other_goal_wrapper');
+        const input = document.getElementById('other_financial_goal');
+
+        if (checkbox.checked) {
+            wrapper.style.display = 'block';
+            input.setAttribute('required', 'required');
+        } else {
+            wrapper.style.display = 'none';
+            input.removeAttribute('required');
+            input.value = '';
+        }
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('successModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    function validateForm() {
+        const errorBox = document.getElementById('js-error-box');
+        const errorMessage = document.getElementById('js-error-message');
+
+        // Hide error box initially
+        errorBox.style.display = 'none';
+        errorMessage.innerText = '';
+
+        const monthlyIncome = parseFloat(document.getElementById('monthly_income').value) || 0;
+        const otherMonthlyIncome = parseFloat(document.getElementById('other_monthly_income').value) || 0;
+        const monthlySavingsTarget = parseFloat(document.getElementById('monthly_savings_target').value) || 0;
+        const existingSavings = parseFloat(document.getElementById('existing_savings').value) || 0;
+        const preferredSavingsPct = parseFloat(document.getElementById('preferred_savings_percentage').value) || 0;
+        const spendingAlertLimit = parseFloat(document.getElementById('spending_alert_limit').value) || 0;
+
+        // Validation Checks:
+        // 1. Monthly Income cannot be negative
+        if (monthlyIncome < 0) {
+            showError("Monthly Income cannot be negative.");
+            return false;
+        }
+
+        // 2. Existing savings cannot be negative
+        if (existingSavings < 0) {
+            showError("Existing Savings cannot be negative.");
+            return false;
+        
+        }
+
+        // 3. Savings target cannot exceed Monthly Income
+        if (monthlySavingsTarget > monthlyIncome) {
+            showError("Monthly Savings Target cannot exceed Monthly Income.");
+            return false;
+        }
+
+        // 4. Preferred Savings % must be 0 to 100
+        if (preferredSavingsPct < 0 || preferredSavingsPct > 100) {
+            showError("Preferred Savings Percentage must be between 0 and 100.");
+            return false;
+        }
+
+        // 5. Alert Limit must be positive
+        if (spendingAlertLimit <= 0) {
+            showError("Alert Limit must be positive.");
+            return false;
+        }
+
+        return true;
+    }
+
+    function showError(message) {
+        const errorBox = document.getElementById('js-error-box');
+        const errorMessage = document.getElementById('js-error-message');
+        errorMessage.innerText = message;
+        errorBox.style.display = 'flex';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+{% endblock %}

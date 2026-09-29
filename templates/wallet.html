@@ -1,0 +1,129 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+Wallet
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\wallet.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="header">
+
+    <h1>Wallet Overview</h1>
+
+</div>
+
+<div class="balance-card">
+
+    <h3>Current Balance</h3>
+
+    <h1>₹ {{ wallet.balance }}</h1>
+
+</div>
+
+<div class="account-card">
+
+    <h2>Account Details</h2>
+
+    <p>
+        <strong>Customer ID:</strong>
+        {{ user.customer_id }}
+    </p>
+
+    <p>
+        <strong>Account Number:</strong>
+        {{ user.account_number }}
+    </p>
+
+</div>
+
+<div class="actions">
+
+    <a href="{% url 'deposit' %}" class="btn">
+        Deposit
+    </a>
+
+    <a href="{% url 'withdraw' %}" class="btn">
+        Withdraw
+    </a>
+
+    <a href="{% url 'transfer' %}" class="btn">
+        Transfer
+    </a>
+
+</div>
+
+<div class="summary">
+
+    <div class="summary-card">
+
+        <h3>Total Deposits</h3>
+
+        <h2>₹ {{ total_deposit }}</h2>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h3>Total Withdrawals</h3>
+
+        <h2>₹ {{ total_withdraw }}</h2>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h3>Total Transfers</h3>
+
+        <h2>₹ {{ total_transfer }}</h2>
+
+    </div>
+
+</div>
+
+<div class="activity">
+
+    <h2>Recent Wallet Activity</h2>
+
+    <table>
+
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Amount</th>
+        </tr>
+
+        {% for t in transactions %}
+
+        <tr>
+
+            <td>{{ t.created_at }}</td>
+
+            <td>{{ t.transaction_type }}</td>
+
+            <td>₹ {{ t.amount }}</td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+
+            <td colspan="3">
+                No transactions available
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endblock %}

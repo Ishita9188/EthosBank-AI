@@ -1,0 +1,505 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Register | EthosBank AI</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/register.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Google reCAPTCHA -->
+
+    <script src="https://www.google.com/recaptcha/api.js"
+            async
+            defer>
+    </script>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <div class="register-card">
+
+
+        <div class="logo">
+            EthosBank AI
+        </div>
+
+
+        <h1>Create Account</h1>
+
+        <p>
+            Join EthosBank AI
+        </p>
+
+
+        <!-- MESSAGES -->
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="message-box">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+        <form method="POST"
+              enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+
+            <!-- USER TYPE -->
+
+            <div class="input-group">
+
+                <label>
+                    User Type
+                </label>
+
+                <select id="role"
+                        name="role"
+                        onchange="toggleElderFields()"
+                        required>
+
+                    <option value="">
+                        Select Role
+                    </option>
+
+                    <option value="consumer">
+                        Consumer
+                    </option>
+
+                    <option value="elder">
+                        Elder User
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- NAME -->
+
+            <div class="row">
+
+                <div class="input-group">
+
+                    <label>
+                        First Name
+                    </label>
+
+                    <input type="text"
+                           name="first_name"
+                           required>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Last Name
+                    </label>
+
+                    <input type="text"
+                           name="last_name"
+                           required>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTACT -->
+
+            <div class="row">
+
+                <div class="input-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input type="email"
+                           name="email"
+                           required>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Mobile Number
+                    </label>
+
+                    <input type="text"
+                           name="mobile"
+                           required>
+
+                </div>
+
+            </div>
+
+
+            <!-- PERSONAL INFORMATION -->
+
+            <div class="row">
+
+                <div class="input-group">
+
+                    <label>
+                        Date of Birth
+                    </label>
+
+                    <input type="date"
+                           name="dob"
+                           required>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Gender
+                    </label>
+
+                    <select name="gender"
+                            required>
+
+                        <option value="Male">
+                            Male
+                        </option>
+
+                        <option value="Female">
+                            Female
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- OCCUPATION -->
+
+            <div class="row">
+
+                <div class="input-group">
+
+                    <label>
+                        Occupation
+                    </label>
+
+                    <input type="text"
+                           name="occupation">
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Monthly Income
+                    </label>
+
+                    <input type="number"
+                           name="monthly_income"
+                           min="0">
+
+                </div>
+
+            </div>
+
+
+            <!-- ELDER USER -->
+
+            <div id="elderFields">
+
+                <h3>
+                    Trusted Contact Details
+                </h3>
+
+
+                <div class="row">
+
+                    <div class="input-group">
+
+                        <label>
+                            Trusted Contact Name
+                        </label>
+
+                        <input type="text"
+                               name="trusted_contact_name">
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>
+                            Trusted Contact Phone
+                        </label>
+
+                        <input type="text"
+                               name="trusted_contact_phone">
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Relationship
+                    </label>
+
+                    <input type="text"
+                           name="relationship">
+
+                </div>
+
+            </div>
+
+
+            <!-- IDENTITY VERIFICATION -->
+
+            <div class="verification-section">
+
+                <h3>
+                    Identity Verification
+                </h3>
+
+                <p class="verification-description">
+
+                    Upload your Aadhaar and PAN documents.
+                    EthosBank AI will analyse the documents
+                    using AI-powered OCR.
+
+                </p>
+
+
+                <!-- AADHAAR -->
+
+                <div class="document-upload">
+
+                    <label>
+                        Aadhaar Card
+                    </label>
+
+                    <input type="file"
+                           name="aadhaar_document"
+                           accept="image/png,image/jpeg,image/jpg"
+                           required>
+
+                    <small>
+                        JPG or PNG • Maximum 5 MB
+                    </small>
+
+                </div>
+
+
+                <!-- PAN -->
+
+                <div class="document-upload">
+
+                    <label>
+                        PAN Card
+                    </label>
+
+                    <input type="file"
+                           name="pan_document"
+                           accept="image/png,image/jpeg,image/jpg"
+                           required>
+
+                    <small>
+                        JPG or PNG • Maximum 5 MB
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="row">
+
+                <div class="input-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input type="password"
+                           name="password"
+                           minlength="8"
+                           required>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Confirm Password
+                    </label>
+
+                    <input type="password"
+                           name="confirm_password"
+                           minlength="8"
+                           required>
+
+                </div>
+
+            </div>
+
+
+            <!-- GOOGLE RECAPTCHA -->
+
+            <div class="captcha-section">
+
+                <label>
+                    Security Verification
+                </label>
+
+                <div class="g-recaptcha"
+                     data-sitekey="{{ recaptcha_site_key }}">
+                </div>
+
+            </div>
+
+
+            <!-- TERMS -->
+
+            <div class="terms">
+
+                <input type="checkbox"
+                       name="terms"
+                       id="terms"
+                       required>
+
+                <label for="terms">
+
+                    I agree to the
+
+                    <a href="{% url 'terms_view' %}"
+                       target="_blank">
+
+                        Terms & Conditions
+
+                    </a>
+
+                </label>
+
+            </div>
+
+
+            <!-- REGISTER -->
+
+            <button type="submit"
+                    class="register-btn">
+
+                Create Account
+
+            </button>
+
+
+        </form>
+
+
+        <!-- LOGIN -->
+
+        <div class="login-link">
+
+            Already have an account?
+
+            <a href="{% url 'login' %}">
+
+                Login
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+function toggleElderFields() {
+
+    let role =
+        document.getElementById("role").value;
+
+    let elderFields =
+        document.getElementById("elderFields");
+
+
+    if (role === "elder") {
+
+        elderFields.style.display =
+            "block";
+
+    }
+
+    else {
+
+        elderFields.style.display =
+            "none";
+
+    }
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        toggleElderFields();
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

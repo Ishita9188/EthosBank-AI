@@ -1,0 +1,313 @@
+/* =========================================================
+   ETHOSBANK AI — CONSUMER DASHBOARD
+   White paper / black-ink bank-statement look, with the same
+   industrial detailing as the rest of the site: steel hairlines,
+   riveted card corners, tabular-mono figures, ledger-style table.
+   Loaded after dashboard_base.css — reuses its --navy/--blue/
+   --green variables, redeclared here as a safe fallback.
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root{
+    --navy:#0B2447;
+    --navy-deep:#081A34;
+    --blue:#1D4ED8;
+    --blue-light:#2563EB;
+    --green:#0F9D6E;
+    --red:#C0392B;
+    --amber:#B7791F;
+    --steel:#94A3B8;
+    --steel-line:#D8DEE7;
+    --ink:#000000;
+    --ink-mute:#4B5563;
+}
+
+/* the dashboard content area itself becomes true white paper */
+.main-content{
+    background:#FFFFFF;
+    color:var(--ink);
+}
+
+/* ---------- motion ---------- */
+
+@keyframes fade-up{
+    0%{ opacity:0; transform:translateY(10px); }
+    100%{ opacity:1; transform:translateY(0); }
+}
+
+@keyframes pulse-live{
+    0%,100%{ box-shadow:0 0 0 0 rgba(15,157,110,0.4); }
+    50%{ box-shadow:0 0 0 5px rgba(15,157,110,0); }
+}
+
+@keyframes ring-in{
+    0%{ transform:scale(0.9); opacity:0; }
+    100%{ transform:scale(1); opacity:1; }
+}
+
+@media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+}
+
+/* ---------- topbar / statement letterhead ---------- */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    padding-bottom:18px;
+    margin-bottom:26px;
+    border-bottom:2px solid var(--ink);
+    position:relative;
+}
+
+.topbar::before{
+    content:"ACCOUNT OVERVIEW  ·  " attr(data-date);
+    position:absolute;
+    top:-20px;
+    left:0;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.14em;
+    color:var(--steel);
+}
+
+.topbar h1{
+    font-size:24px;
+    font-weight:700;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+}
+
+/* ---------- scheduled withdrawal notice ---------- */
+
+.scheduled-withdrawal-alert{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+    background:#FFFBEB;
+    border:1px solid #F1D89A;
+    border-left:4px solid var(--amber);
+    border-radius:8px;
+    padding:18px 20px;
+    margin-bottom:26px;
+    animation:fade-up 0.35s ease both;
+}
+
+.alert-icon{
+    font-size:22px;
+    line-height:1;
+}
+
+.alert-details h3{
+    font-size:15px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:4px;
+}
+
+.alert-details p{
+    font-size:13.5px;
+    color:var(--ink-mute);
+    margin-bottom:12px;
+}
+
+.process-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    text-decoration:none;
+    padding:9px 20px;
+    border-radius:6px;
+    background:linear-gradient(180deg, var(--blue-light), var(--blue));
+    color:#fff;
+    font-size:13px;
+    font-weight:600;
+    box-shadow:0 1px 0 rgba(255,255,255,0.15) inset, 0 6px 14px rgba(29,78,216,0.25);
+    transition:transform 0.12s ease, filter 0.15s ease;
+}
+
+.process-btn:hover{
+    filter:brightness(1.05);
+    transform:translateY(1px);
+}
+
+/* ---------- summary cards ---------- */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:18px;
+    margin-bottom:32px;
+}
+
+.card{
+    background:#FFFFFF;
+    border:1px solid var(--steel-line);
+    border-radius:8px;
+    padding:20px 22px;
+    position:relative;
+    overflow:hidden;
+    min-width:0;
+    animation:fade-up 0.35s ease both;
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* thin top rule, alternating navy / blue / green like ledger tabs */
+.card::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height:4px;
+    background:var(--navy);
+}
+
+.cards .card:nth-child(1)::before{ background:var(--navy); }
+.cards .card:nth-child(2)::before{ background:var(--blue); }
+.cards .card:nth-child(3)::before{ background:var(--green); }
+
+/* riveted corner ticks, quiet industrial detail */
+.card::after{
+    content:"";
+    position:absolute;
+    top:10px; left:10px; right:10px; bottom:10px;
+    border:1px solid rgba(0,0,0,0.04);
+    border-radius:6px;
+    pointer-events:none;
+}
+
+.card h3{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--steel);
+    font-weight:600;
+    margin-bottom:12px;
+}
+
+.card h2{
+    font-family:'JetBrains Mono', monospace;
+    font-size:28px;
+    font-weight:700;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+    overflow-wrap:break-word;
+    word-break:break-word;
+}
+
+/* ---------- sections ---------- */
+
+.section{
+    background:#FFFFFF;
+    border:1px solid var(--steel-line);
+    border-radius:8px;
+    padding:24px 26px 8px;
+    margin-bottom:24px;
+}
+
+.section > h2{
+    font-size:16px;
+    font-weight:700;
+    color:var(--ink);
+    padding-bottom:16px;
+    margin-bottom:6px;
+    border-bottom:1px solid var(--steel-line);
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.section > h2::before{
+    content:"";
+    width:6px;
+    height:6px;
+    background:var(--navy);
+}
+
+/* ---------- ledger table ---------- */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table tr th{
+    text-align:left;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--steel);
+    font-weight:600;
+    padding:10px 8px;
+    border-bottom:1px solid var(--ink);
+}
+
+table tr td{
+    padding:14px 8px;
+    font-size:13.5px;
+    color:var(--ink);
+    border-bottom:1px solid var(--steel-line);
+    font-family:'JetBrains Mono', monospace;
+}
+
+table tr td:nth-child(2){
+    font-family:'Poppins', sans-serif;
+}
+
+table tr:last-child td{
+    border-bottom:none;
+}
+
+table tr:hover td{
+    background:#FAFBFC;
+}
+
+table tr td[colspan]{
+    text-align:center;
+    color:var(--steel);
+    padding:26px 8px;
+    font-family:'Poppins', sans-serif;
+}
+
+/* ---------- AI alerts ---------- */
+
+.alert{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:13px 16px;
+    border-radius:6px;
+    font-size:13.5px;
+    margin-bottom:12px;
+    border:1px solid transparent;
+}
+
+.alert.success{
+    background:#EEFBF4;
+    border-color:#BFE9D3;
+    border-left:3px solid var(--green);
+    color:#0B6B4C;
+}
+
+.alert.warning{
+    background:#FFFBEB;
+    border-color:#F1D89A;
+    border-left:3px solid var(--amber);
+    color:#8A5A0D;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width:900px){
+    .cards{
+        grid-template-columns:1fr;
+    }
+    .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:6px;
+    }
+}

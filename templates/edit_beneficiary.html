@@ -1,0 +1,187 @@
+{% extends 'dashboard_base.html' %}
+
+{% load static %}
+
+{% block title %}
+Edit Beneficiary
+{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet"
+      href="{% static 'css/beneficiaries.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="topbar">
+    <h1>Edit Beneficiary</h1>
+</div>
+
+<div class="section form-section">
+
+    <h2>Update Recipient Details</h2>
+
+    <p>
+        Update the beneficiary information below and save your changes.
+    </p>
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="form-grid">
+
+            <!-- BENEFICIARY NAME -->
+
+            <div class="form-group">
+
+                <label>
+                    Beneficiary Name
+                </label>
+
+                <input
+                    type="text"
+                    name="beneficiary_name"
+                    maxlength="100"
+                    required
+                    value="{{ beneficiary.beneficiary_name }}"
+                    placeholder="Enter beneficiary name">
+
+            </div>
+
+
+            <!-- ACCOUNT NUMBER -->
+
+            <div class="form-group">
+
+                <label>
+                    Account Number
+                </label>
+
+                <input
+                    type="text"
+                    name="beneficiary_account"
+                    maxlength="30"
+                    required
+                    value="{{ beneficiary.beneficiary_account }}"
+                    placeholder="Enter account number">
+
+            </div>
+
+
+            <!-- IFSC CODE -->
+
+            <div class="form-group">
+
+                <label>
+                    IFSC Code
+                </label>
+
+                <input
+                    type="text"
+                    name="ifsc_code"
+                    maxlength="11"
+                    required
+                    value="{{ beneficiary.ifsc_code }}"
+                    placeholder="e.g. HDFC0001234"
+                    style="text-transform: uppercase;">
+
+            </div>
+
+
+            <!-- BANK NAME -->
+
+            <div class="form-group">
+
+                <label>
+                    Bank Name
+                </label>
+
+                <input
+                    type="text"
+                    name="beneficiary_bank"
+                    maxlength="100"
+                    required
+                    value="{{ beneficiary.beneficiary_bank }}"
+                    placeholder="Enter bank name">
+
+            </div>
+
+        </div>
+
+
+        <!-- CURRENT STATUS -->
+
+        <div class="beneficiary-status">
+
+            <p>
+
+                <strong>Verification Status:</strong>
+
+                {% if beneficiary.verified %}
+
+                    <span class="verified-status">
+                        Verified
+                    </span>
+
+                {% else %}
+
+                    <span class="pending-status">
+                        Pending Verification
+                    </span>
+
+                {% endif %}
+
+            </p>
+
+            <p>
+
+                <strong>Saved On:</strong>
+
+                {{ beneficiary.added_on|date:"d M Y, h:i A" }}
+
+            </p>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button
+                type="submit"
+                class="primary-btn">
+
+                Save Changes
+
+            </button>
+
+
+            <a
+                href="{% url 'beneficiaries' %}"
+                class="secondary-btn">
+
+                Cancel
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

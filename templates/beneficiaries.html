@@ -1,0 +1,195 @@
+{% extends 'dashboard_base.html' %}
+
+{% load static %}
+
+{% block title %}
+Beneficiaries
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\beneficiaries.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="topbar">
+    <h1>Beneficiaries</h1>
+</div>
+
+<div class="page-header">
+
+
+    <p>
+        Manage your saved recipients for quick and secure transfers.
+    </p>
+
+</div>
+
+{% if messages %}
+
+    {% for message in messages %}
+
+        <div class="message {{ message.tags }}">
+            {{ message }}
+        </div>
+
+    {% endfor %}
+
+{% endif %}
+
+<div class="action-section">
+
+    <a href="{% url 'add_beneficiary' %}"
+       class="primary-btn">
+
+        + Add Beneficiary
+
+    </a>
+
+</div>
+
+<div class="section">
+
+    <h2>Saved Recipients</h2>
+
+    {% if beneficiaries %}
+
+        <div class="beneficiary-grid">
+
+            {% for beneficiary in beneficiaries %}
+
+                <div class="beneficiary-card">
+
+                    <div class="beneficiary-header">
+
+                        <div>
+
+                            <h3>
+                                {{ beneficiary.beneficiary_name }}
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                    <div class="beneficiary-details">
+
+                        <div>
+
+                            <strong>Bank</strong>
+
+                            <span>
+                                {{ beneficiary.beneficiary_bank }}
+                            </span>
+
+                        </div>
+
+                        <div>
+
+                            <strong>Account Number</strong>
+
+                            <span>
+                                {{ beneficiary.beneficiary_account }}
+                            </span>
+
+                        </div>
+
+                        <div>
+
+                            <strong>IFSC</strong>
+
+                            <span>
+                                {{ beneficiary.ifsc_code }}
+                            </span>
+
+                        </div>
+
+                        <div>
+
+                            <strong>Saved On</strong>
+
+                            <span>
+                                {{ beneficiary.added_on|date:"d M Y" }}
+                            </span>
+
+                        </div>
+
+                        <div>
+
+                            <strong>Status</strong>
+
+                            <span>
+
+                                {% if beneficiary.verified %}
+
+                                    Verified
+
+                                {% else %}
+
+                                    Pending Verification
+
+                                {% endif %}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="beneficiary-actions">
+
+                        <a href="{% url 'edit_beneficiary' beneficiary.id %}"
+                           class="secondary-btn">
+
+                            Edit
+
+                        </a>
+
+                        <form method="POST"
+                              action="{% url 'delete_beneficiary' beneficiary.id %}"
+                              onsubmit="return confirm('Delete this beneficiary?');">
+
+                            {% csrf_token %}
+
+                            <button type="submit"
+                                    class="danger-btn">
+
+                                Delete
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <h3>No beneficiaries saved yet.</h3>
+
+            <p>
+                Add a beneficiary to make future transfers faster.
+            </p>
+
+            <a href="{% url 'add_beneficiary' %}"
+               class="primary-btn">
+
+                + Add Beneficiary
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

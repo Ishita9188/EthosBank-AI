@@ -1,0 +1,452 @@
+{% extends 'dashboard_base.html' %}
+
+{% load static %}
+
+
+{% block extra_css %}
+
+<link rel="stylesheet"
+      href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\offer_scan.css' %}">
+
+{% endblock %}
+
+
+{% block title %}
+
+Offer Scan - EthosBank AI
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- ===================================================== -->
+<!-- TOP BAR -->
+<!-- ===================================================== -->
+
+<div class="topbar">
+
+    <div>
+
+        <h1>
+            AI Offer Scanner
+        </h1>
+
+        <p>
+            Analyze financial offers for manipulation,
+            hidden risks and suspicious patterns.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- INTRODUCTION -->
+<!-- ===================================================== -->
+
+<div class="offer-intro">
+
+    <div class="intro-icon">
+        🛡️
+    </div>
+
+    <div>
+
+        <h2>
+            Protect Yourself from Manipulative Financial Offers
+        </h2>
+
+        <p>
+            Paste a loan, investment, credit card, banking SMS,
+            email or promotional offer below. EthosBank AI will
+            analyze the language and identify potentially
+            manipulative or suspicious financial patterns.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- OFFER INPUT -->
+<!-- ===================================================== -->
+
+<div class="section offer-scanner">
+
+    <h2>
+        Scan a Financial Offer
+    </h2>
+
+    <p class="section-description">
+
+        Enter or paste the complete financial offer below
+        and let EthosBank AI analyze it.
+
+    </p>
+
+
+    <form method="POST"
+          action="{% url 'offer_scan' %}">
+
+        {% csrf_token %}
+
+
+        <label for="offer_text">
+
+            Financial Offer / Message
+
+        </label>
+
+
+        <textarea
+            id="offer_text"
+            name="offer_text"
+            rows="10"
+            placeholder="Paste the financial offer, SMS, email or promotional message here..."
+            required>{{ offer_text|default:'' }}</textarea>
+
+
+        <div class="example-text">
+
+            <strong>
+                Example:
+            </strong>
+
+            <span>
+
+                "Congratulations! You have been selected
+                for an instant ₹5,00,000 loan. Pay a processing
+                fee today to activate your offer."
+
+            </span>
+
+        </div>
+
+
+        <button type="submit"
+                class="scan-button">
+
+            🔍 Scan Offer
+
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- ERROR -->
+<!-- ===================================================== -->
+
+{% if error %}
+
+<div class="section error-section">
+
+    <h3>
+        ⚠ Unable to Analyze Offer
+    </h3>
+
+    <p>
+        {{ error }}
+    </p>
+
+</div>
+
+{% endif %}
+
+
+<!-- ===================================================== -->
+<!-- RESULTS -->
+<!-- ===================================================== -->
+
+{% if result %}
+
+<div class="section scan-result">
+
+
+    <!-- ================================================= -->
+    <!-- RESULT HEADER -->
+    <!-- ================================================= -->
+
+    <div class="result-header">
+
+        <div>
+
+            <h2>
+                AI Analysis Result
+            </h2>
+
+            <p>
+                EthosBank AI analysis of the submitted offer.
+            </p>
+
+        </div>
+
+
+        <div class="status-badge">
+
+            {{ result.risk_level }}
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- SCORE CARDS -->
+    <!-- ================================================= -->
+
+    <div class="score-cards">
+
+
+        <div class="score-card">
+
+            <h3>
+                Manipulation Score
+            </h3>
+
+            <div class="score-value">
+
+                {{ result.manipulation_score }}
+
+            </div>
+
+            <p>
+                Degree of manipulative language detected.
+            </p>
+
+        </div>
+
+
+        <div class="score-card">
+
+            <h3>
+                Transparency Score
+            </h3>
+
+            <div class="score-value">
+
+                {{ result.transparency_score }}
+
+            </div>
+
+            <p>
+                Clarity and transparency of the offer.
+            </p>
+
+        </div>
+
+
+        <div class="score-card">
+
+            <h3>
+                Risk Score
+            </h3>
+
+            <div class="score-value">
+
+                {{ result.risk_score }}
+
+            </div>
+
+            <p>
+                Overall calculated financial risk.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- CLASSIFICATION -->
+    <!-- ================================================= -->
+
+    <div class="classification-grid">
+
+
+        <div class="classification-card">
+
+            <h3>
+                Offer Category
+            </h3>
+
+            <p>
+                {{ result.offer_category }}
+            </p>
+
+        </div>
+
+
+        <div class="classification-card">
+
+            <h3>
+                Sentiment
+            </h3>
+
+            <p>
+                {{ result.sentiment }}
+            </p>
+
+        </div>
+
+
+        <div class="classification-card">
+
+            <h3>
+                Banking Intent
+            </h3>
+
+            <p>
+                {{ result.banking_intent }}
+            </p>
+
+        </div>
+
+
+        <div class="classification-card">
+
+            <h3>
+                Ethical Classification
+            </h3>
+
+            <p>
+                {{ result.ethical_classification }}
+            </p>
+
+        </div>
+
+
+        <div class="classification-card">
+
+            <h3>
+                ML Risk Prediction
+            </h3>
+
+            <p>
+                {{ result.ml_risk_prediction }}
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- DETECTED PATTERNS -->
+    <!-- ================================================= -->
+
+    <div class="analysis-box">
+
+        <h3>
+            🔍 Detected Manipulation Patterns
+        </h3>
+
+
+        {% if result.detected_patterns %}
+
+            <ul class="pattern-list">
+
+                {% for pattern in result.detected_patterns %}
+
+                    <li>
+                        {{ pattern }}
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% else %}
+
+            <p class="no-patterns">
+
+                ✓ No known manipulative patterns detected.
+
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- PATTERN ANALYSIS -->
+    <!-- ================================================= -->
+
+    {% if result.pattern_analysis %}
+
+    <div class="pattern-details">
+
+        <h3>
+            Pattern Analysis
+        </h3>
+
+        <ul class="pattern-list">
+
+            {% for analysis in result.pattern_analysis %}
+
+                <li>
+                    {{ analysis }}
+                </li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- ================================================= -->
+    <!-- RECOMMENDATION -->
+    <!-- ================================================= -->
+
+    {% if result.recommendation %}
+
+    <div class="recommendation-box">
+
+        <h3>
+            🛡️ AI Recommendation
+        </h3>
+
+        <p>
+            {{ result.recommendation }}
+        </p>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- ================================================= -->
+    <!-- PROCESSED TEXT -->
+    <!-- ================================================= -->
+
+    <div class="cleaned-text-box">
+
+        <h3>
+            Processed Offer Text
+        </h3>
+
+        <p>
+            {{ result.cleaned_text }}
+        </p>
+
+    </div>
+
+
+</div>
+
+{% endif %}
+
+
+{% endblock %}

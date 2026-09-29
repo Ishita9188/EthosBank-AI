@@ -1,0 +1,193 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+Transactions
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\transactions.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="transactions-page">
+
+    <div class="page-header">
+
+        <h1>Transactions Center</h1>
+
+        <p>
+            View and manage your transaction history.
+        </p>
+
+    </div>
+
+    <!-- SUMMARY CARDS -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <h3>Total Deposits</h3>
+
+            <h2>₹ {{ total_deposit }}</h2>
+
+        </div>
+
+        <div class="summary-card">
+
+            <h3>Total Withdrawals</h3>
+
+            <h2>₹ {{ total_withdraw }}</h2>
+
+        </div>
+
+        <div class="summary-card">
+
+            <h3>Total Transfers</h3>
+
+            <h2>₹ {{ total_transfer }}</h2>
+
+        </div>
+
+        <div class="summary-card">
+
+            <h3>Total Transactions</h3>
+
+            <h2>{{ total_transactions }}</h2>
+
+        </div>
+
+    </div>
+
+    <!-- FILTERS -->
+
+    <div class="filter-card">
+
+        <form method="GET">
+
+            <select name="type">
+
+                <option value="">
+                    All Transactions
+                </option>
+
+                <option value="Deposit">
+                    Deposit
+                </option>
+                <option value="Fixed Deposit">
+                    Fixed Deposit
+                </option>
+                <option value="RD Installment">
+                    RD Installment
+                </option>
+                <option value="Withdraw">
+                    Withdraw
+                </option>
+
+                <option value="Transfer">
+                    Transfer
+                </option>
+                <option value="Passion Fund Topup">
+                    Passion Fund Topup
+                </option>
+
+                
+
+            </select>
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search amount..."
+            >
+
+            <button type="submit">
+
+                Apply Filter
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- TRANSACTION TABLE -->
+
+    <div class="table-card">
+
+        <h2>Transaction History</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Date</th>
+
+                    <th>Transaction Type</th>
+
+                    <th>Amount</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for t in transactions %}
+
+                <tr>
+
+                    <td>
+                        {{ t.created_at|date:"d M Y h:i A" }}
+                    </td>
+
+                    <td>
+                        {{ t.transaction_type }}
+                    </td>
+
+                    <td>
+                        ₹ {{ t.amount }}
+                    </td>
+
+                    <td>
+
+                        <span class="success">
+
+                            Completed
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="4">
+
+                        No Transactions Found
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

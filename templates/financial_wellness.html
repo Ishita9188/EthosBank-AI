@@ -1,0 +1,1389 @@
+{% extends 'dashboard_base.html' %}
+
+{% load static %}
+
+{% block title %}
+AI Financial Wellness Dashboard - EthosBank
+{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/financial_wellness.css' %}">
+
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+/* =========================================================
+   SHAP EXPLAINABLE AI
+   ========================================================= */
+
+.shap-wrapper {
+    margin-top: 14px;
+}
+
+.shap-description {
+    font-size: 0.82rem;
+    color: #64748B;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.shap-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.shap-item {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.shap-feature {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 7px;
+    font-size: 0.82rem;
+    color: #334155;
+}
+
+.shap-feature strong {
+    font-weight: 600;
+}
+
+.shap-value {
+    color: #64748B;
+    font-size: 0.76rem;
+    text-align: right;
+}
+
+.shap-bar-container {
+    width: 100%;
+    height: 7px;
+    background: #E2E8F0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.shap-bar {
+    height: 100%;
+    min-width: 3px;
+    max-width: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.shap-positive {
+    background: #EF4444;
+}
+
+.shap-negative {
+    background: #10B981;
+}
+
+.shap-impact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+    font-size: 0.72rem;
+    color: #64748B;
+}
+
+.shap-impact-label {
+    font-weight: 600;
+}
+
+.shap-positive-text {
+    color: #DC2626;
+    font-weight: 600;
+}
+
+.shap-negative-text {
+    color: #059669;
+    font-weight: 600;
+}
+
+.shap-empty {
+    color: #94A3B8;
+    font-size: 0.82rem;
+    text-align: center;
+    padding: 12px;
+}
+
+.shap-note {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #F8FAFC;
+    border-left: 3px solid #64748B;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: #64748B;
+}
+
+/* Make SHAP section fit well on smaller screens */
+@media (max-width: 768px) {
+    .shap-feature,
+    .shap-impact {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .shap-value {
+        text-align: left;
+    }
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="wellness-container">
+
+    <!-- =========================================================
+         HEADER
+         ========================================================= -->
+
+    <div class="wellness-header">
+
+        <div>
+            <h1>Financial Wellness AI</h1>
+
+            <p style="color: #64748B; margin-top: 4px;">
+                Hybrid intelligence reports on your assets, risks, and forecasts.
+            </p>
+        </div>
+
+        <a href="?refresh=true" class="refresh-btn">
+            <span>🔄</span> Force Recalculate Insights
+        </a>
+
+    </div>
+
+
+    <!-- =========================================================
+         MESSAGES
+         ========================================================= -->
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div style="
+                background-color: #ECFDF5;
+                border-left: 4px solid #10B981;
+                color: #047857;
+                padding: 12px 18px;
+                margin-bottom: 24px;
+                border-radius: 6px;
+                font-weight: 500;
+            ">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <!-- =========================================================
+         ROW 1 - WELLNESS SCORE + DEBT RISK
+         ========================================================= -->
+
+    <div class="wellness-grid">
+
+
+        <!-- =====================================================
+             FINANCIAL WELLNESS SCORE CARD
+             ===================================================== -->
+
+        <div class="score-card">
+
+            <h3 style="
+                color: #0B1026;
+                margin-bottom: 15px;
+                font-size: 1.15rem;
+                font-weight: 600;
+                text-align: center;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            ">
+                Financial Wellness
+            </h3>
+
+            <div class="gauge-wrapper">
+
+                <svg
+                    class="gauge-svg"
+                    width="200"
+                    height="200"
+                    viewBox="0 0 200 200"
+                >
+
+                    <circle
+                        class="gauge-bg"
+                        cx="100"
+                        cy="100"
+                        r="80">
+                    </circle>
+
+                    <circle
+                        class="gauge-fill {{ rating_class }}-stroke"
+                        cx="100"
+                        cy="100"
+                        r="80"
+                        stroke-dasharray="502.6"
+                        stroke-dashoffset="{{ wellness_dashoffset }}">
+                    </circle>
+
+                </svg>
+
+                <div class="gauge-text">
+
+                    <span class="score-number">
+                        {{ insights.Financial_Wellness.score }}
+                    </span>
+
+                    <span class="score-label">
+                        Points
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="score-badge {{ rating_class }}">
+                Rating: {{ insights.Financial_Wellness.prediction }}
+            </div>
+
+
+            <div style="
+                margin-top: 15px;
+                text-align: center;
+                font-size: 0.8rem;
+                color: #64748B;
+            ">
+                Confidence:
+                {{ insights.Financial_Wellness.confidence }}%
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             DETAILS COLUMN
+             ===================================================== -->
+
+        <div class="details-column">
+
+
+            <!-- =================================================
+                 FINANCIAL WELLNESS ANALYSIS
+                 ================================================= -->
+
+            <div class="w-card">
+
+                <div class="w-card-header">
+
+                    <h3>
+                        💡 Financial Health Analysis
+                    </h3>
+
+                </div>
+
+
+                <p class="card-desc">
+                    {{ insights.Financial_Wellness.explanation }}
+                </p>
+
+
+                <!-- Existing XAI -->
+
+                <div class="accordion-wrapper">
+
+                    <button class="accordion-trigger">
+
+                        <span>
+                            Explainable AI (XAI) Health Metrics
+                        </span>
+
+                        <span class="arrow">
+                            ▼
+                        </span>
+
+                    </button>
+
+
+                    <div class="accordion-content">
+
+                        <ul class="feat-list">
+
+                            {% for name, val in insights.Financial_Wellness.feature_importance.items %}
+
+                            <li class="feat-item">
+
+                                <span class="feat-name">
+                                    {{ name }}
+                                </span>
+
+                                <span class="feat-val">
+                                    {{ val }}
+                                </span>
+
+                            </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     SHAP EXPLAINABLE AI - FINANCIAL WELLNESS
+                     ================================================= -->
+
+                <div class="accordion-wrapper shap-wrapper">
+
+                    <button class="accordion-trigger">
+
+                        <span>
+                            🔍 SHAP Explainable AI — Why This Result?
+                        </span>
+
+                        <span class="arrow">
+                            ▼
+                        </span>
+
+                    </button>
+
+
+                    <div class="accordion-content">
+
+                        <p class="shap-description">
+
+                            SHAP explains how each financial factor
+                            influenced the underlying AI risk prediction.
+                            Larger absolute SHAP values indicate stronger
+                            influence on the prediction.
+
+                        </p>
+
+
+                        {% if insights.Financial_Wellness.shap_explanation %}
+
+                            <div class="shap-list">
+
+                                {% for item in insights.Financial_Wellness.shap_explanation %}
+
+                                <div
+                                    class="shap-item"
+                                    data-shap="{{ item.absolute_shap }}"
+                                >
+
+                                    <div class="shap-feature">
+
+                                        <strong>
+                                            {{ item.feature }}
+                                        </strong>
+
+                                        <span class="shap-value">
+                                            Value: {{ item.value }}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="shap-bar-container">
+
+                                        <div
+                                            class="shap-bar
+                                            {% if item.shap_value > 0 %}
+                                                shap-positive
+                                            {% else %}
+                                                shap-negative
+                                            {% endif %}"
+                                            data-shap-value="{{ item.absolute_shap }}"
+                                            style="width: 0%;">
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="shap-impact">
+
+                                        <span>
+                                            SHAP:
+                                            {{ item.shap_value }}
+                                        </span>
+
+
+                                        {% if item.shap_value > 0 %}
+
+                                            <span class="shap-impact-label shap-positive-text">
+                                                {{ item.impact }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="shap-impact-label shap-negative-text">
+                                                {{ item.impact }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
+                                {% endfor %}
+
+                            </div>
+
+
+                            <div class="shap-note">
+
+                                <strong>Interpretation:</strong>
+                                Positive SHAP values indicate factors
+                                that increase the underlying predicted
+                                risk, while negative SHAP values indicate
+                                factors that decrease it.
+
+                            </div>
+
+
+                        {% else %}
+
+                            <p class="shap-empty">
+                                SHAP explanation is not available
+                                for this prediction.
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 DEBT DEFAULT RISK
+                 ================================================= -->
+
+            <div class="w-card">
+
+                <div class="w-card-header">
+
+                    <h3>
+                        🛡️ Debt Default Risk
+                    </h3>
+
+                    <span class="risk-badge {{ debt_risk }}">
+                        {{ insights.Debt_Risk.prediction }} Risk
+                    </span>
+
+                </div>
+
+
+                <p class="card-desc">
+
+                    <strong>Primary drivers:</strong>
+                    {{ insights.Debt_Risk.explanation }}
+
+                </p>
+
+
+                <div style="
+                    font-size: 0.85rem;
+                    color: #475569;
+                    margin-bottom: 12px;
+                    background: #F8FAFC;
+                    padding: 10px 14px;
+                    border-radius: 8px;
+                ">
+
+                    <strong>AI Recommendation:</strong>
+                    {{ insights.Debt_Risk.recommendation }}
+
+                </div>
+
+
+                <!-- Existing Debt XAI -->
+
+                <div class="accordion-wrapper">
+
+                    <button class="accordion-trigger">
+
+                        <span>
+                            Debt Risk Model Explanations
+                        </span>
+
+                        <span class="arrow">
+                            ▼
+                        </span>
+
+                    </button>
+
+
+                    <div class="accordion-content">
+
+                        <p style="margin-bottom: 8px;">
+
+                            Hybrid Ensemble decision based on
+                            Random Forest and XGBoost classifiers:
+
+                        </p>
+
+
+                        <ul class="feat-list">
+
+                            {% for name, val in insights.Debt_Risk.feature_importance.items %}
+
+                            <li class="feat-item">
+
+                                <span class="feat-name">
+                                    {{ name }}
+                                </span>
+
+                                <span class="feat-val">
+                                    {{ val }}
+                                </span>
+
+                            </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     SHAP EXPLAINABLE AI - DEBT RISK
+                     ================================================= -->
+
+                <div class="accordion-wrapper shap-wrapper">
+
+                    <button class="accordion-trigger">
+
+                        <span>
+                            🔍 SHAP Explainable AI — Risk Drivers
+                        </span>
+
+                        <span class="arrow">
+                            ▼
+                        </span>
+
+                    </button>
+
+
+                    <div class="accordion-content">
+
+                        <p class="shap-description">
+
+                            SHAP identifies which financial factors
+                            increased or decreased the predicted
+                            debt-default risk.
+
+                        </p>
+
+
+                        {% if insights.Debt_Risk.shap_explanation %}
+
+                            <div class="shap-list">
+
+                                {% for item in insights.Debt_Risk.shap_explanation %}
+
+                                <div
+                                    class="shap-item"
+                                    data-shap="{{ item.absolute_shap }}"
+                                >
+
+                                    <div class="shap-feature">
+
+                                        <strong>
+                                            {{ item.feature }}
+                                        </strong>
+
+                                        <span class="shap-value">
+                                            Value: {{ item.value }}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="shap-bar-container">
+
+                                        <div
+                                            class="shap-bar
+                                            {% if item.shap_value > 0 %}
+                                                shap-positive
+                                            {% else %}
+                                                shap-negative
+                                            {% endif %}"
+                                            data-shap-value="{{ item.absolute_shap }}"
+                                            style="width: 0%;">
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="shap-impact">
+
+                                        <span>
+                                            SHAP:
+                                            {{ item.shap_value }}
+                                        </span>
+
+
+                                        {% if item.shap_value > 0 %}
+
+                                            <span class="shap-impact-label shap-positive-text">
+                                                {{ item.impact }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="shap-impact-label shap-negative-text">
+                                                {{ item.impact }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
+                                {% endfor %}
+
+                            </div>
+
+
+                            <div class="shap-note">
+
+                                <strong>Interpretation:</strong>
+                                Positive SHAP values increase the
+                                predicted default risk, while negative
+                                SHAP values reduce the predicted risk.
+
+                            </div>
+
+
+                        {% else %}
+
+                            <p class="shap-empty">
+                                SHAP explanation is not available
+                                for this prediction.
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         ROW 2: SAVINGS, SPENDING AND POVERTY RISK
+         ========================================================= -->
+
+    <div class="wellness-grid">
+
+
+        <!-- =====================================================
+             SAVINGS FORECAST
+             ===================================================== -->
+
+        <div class="w-card" style="grid-column: span 4;">
+
+            <div class="w-card-header">
+
+                <h3>
+                    📈 12-Month Forecast
+                </h3>
+
+                <span class="meta-info">
+                    Linear Regression
+                </span>
+
+            </div>
+
+
+            <p class="card-desc">
+                {{ insights.Savings_Forecast.explanation }}
+            </p>
+
+
+            <div style="
+                background: #F0FDF4;
+                border-radius: 12px;
+                padding: 16px;
+                margin-bottom: 12px;
+                border: 1px solid #DCFCE7;
+            ">
+
+                <div style="
+                    font-size: 0.8rem;
+                    color: #166534;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                ">
+                    Savings in 12 Months
+                </div>
+
+
+                <div style="
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                    color: #15803D;
+                ">
+                    {{ insights.Savings_Forecast.prediction }}
+                </div>
+
+            </div>
+
+
+            <div class="accordion-wrapper">
+
+                <button class="accordion-trigger">
+
+                    <span>
+                        Forecast Projection Timeline
+                    </span>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="accordion-content">
+
+                    <ul class="feat-list">
+
+                        <li class="feat-item">
+
+                            <span>
+                                In 3 Months
+                            </span>
+
+                            <span class="feat-val">
+                                ₹{{ insights.Savings_Forecast.feature_importance.forecast_3_months }}
+                            </span>
+
+                        </li>
+
+
+                        <li class="feat-item">
+
+                            <span>
+                                In 6 Months
+                            </span>
+
+                            <span class="feat-val">
+                                ₹{{ insights.Savings_Forecast.feature_importance.forecast_6_months }}
+                            </span>
+
+                        </li>
+
+
+                        <li class="feat-item">
+
+                            <span>
+                                In 12 Months
+                            </span>
+
+                            <span class="feat-val">
+                                ₹{{ insights.Savings_Forecast.feature_importance.forecast_12_months }}
+                            </span>
+
+                        </li>
+
+
+                        <li class="feat-item">
+
+                            <span>
+                                Estimated Monthly Saving
+                            </span>
+
+                            <span class="feat-val">
+                                ₹{{ insights.Savings_Forecast.feature_importance.monthly_savings_rate }}
+                            </span>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             SPENDING PROFILE
+             ===================================================== -->
+
+        <div class="w-card" style="grid-column: span 4;">
+
+            <div class="w-card-header">
+
+                <h3>
+                    🛍️ Spending Profile
+                </h3>
+
+                <span class="meta-info">
+                    K-Means Cluster
+                </span>
+
+            </div>
+
+
+            <p class="card-desc">
+                {{ insights.Impulse_Spending.explanation }}
+            </p>
+
+
+            <div style="
+                background: #EFF6FF;
+                border-radius: 12px;
+                padding: 16px;
+                margin-bottom: 12px;
+                border: 1px solid #DBEAFE;
+            ">
+
+                <div style="
+                    font-size: 0.8rem;
+                    color: #1e40af;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                ">
+                    Main Spending Profile
+                </div>
+
+
+                <div style="
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    color: #1d4ed8;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                ">
+                    {{ insights.Impulse_Spending.prediction }}
+                </div>
+
+            </div>
+
+
+            <div class="accordion-wrapper">
+
+                <button class="accordion-trigger">
+
+                    <span>
+                        Cluster Spend Breakdowns
+                    </span>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="accordion-content">
+
+                    <ul class="feat-list">
+
+                        {% for name,val in insights.Impulse_Spending.feature_importance.items %}
+
+                        <li class="feat-item">
+
+                            <span>
+                                {{ name }}
+                            </span>
+
+                            <span class="feat-val">
+
+                                {% if "Percentage" in name %}
+
+                                    {{ val }}%
+
+                                {% elif "Spending" in name %}
+
+                                    ₹{{ val }}
+
+                                {% else %}
+
+                                    {{ val }}
+
+                                {% endif %}
+
+                            </span>
+
+                        </li>
+
+                        {% endfor %}
+
+
+                        {% if insights.Impulse_Spending.breakdown %}
+
+                            <li
+                                class="feat-item"
+                                style="
+                                    margin-top: 8px;
+                                    font-weight: 600;
+                                    color: #0f172a;
+                                "
+                            >
+
+                                <span>
+                                    Top 5 Spend Categories
+                                </span>
+
+                                <span class="feat-val"></span>
+
+                            </li>
+
+
+                            {% for item in insights.Impulse_Spending.breakdown %}
+
+                            <li class="feat-item">
+
+                                <span>
+                                    {{ item.category }}
+                                </span>
+
+                                <span class="feat-val">
+                                    ₹{{ item.amount }} •
+                                    {{ item.percentage }}%
+                                </span>
+
+                            </li>
+
+                            {% endfor %}
+
+                        {% endif %}
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             POVERTY RISK
+             ===================================================== -->
+
+        <div class="w-card" style="grid-column: span 4;">
+
+            <div class="w-card-header">
+
+                <h3>
+                    ⚖️ Poverty Risk Analysis
+                </h3>
+
+                <span class="risk-badge {{ poverty_risk }}">
+                    {{ insights.Poverty_Risk.prediction }} Risk
+                </span>
+
+            </div>
+
+
+            <p class="card-desc">
+                {{ insights.Poverty_Risk.explanation }}
+            </p>
+
+
+            <div style="
+                font-size: 0.85rem;
+                color: #475569;
+                margin-bottom: 12px;
+                background: #F8FAFC;
+                padding: 12px;
+                border-radius: 8px;
+            ">
+
+                <strong>
+                    Recommendation:
+                </strong>
+
+                {{ insights.Poverty_Risk.recommendation }}
+
+            </div>
+
+
+            <div class="accordion-wrapper">
+
+                <button class="accordion-trigger">
+
+                    <span>
+                        Income Safety Indicators
+                    </span>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="accordion-content">
+
+                    <ul class="feat-list">
+
+                        {% for name,val in insights.Poverty_Risk.feature_importance.items %}
+
+                        <li class="feat-item">
+
+                            <span>
+                                {{ name }}
+                            </span>
+
+                            <span class="feat-val">
+                                {{ val }}
+                            </span>
+
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         CHARTS GRID
+         ========================================================= -->
+
+    <div class="chart-grid">
+
+
+        <!-- CHART 1 -->
+
+        <div class="chart-card">
+
+            <h3>
+                Savings Projection Growth Line
+            </h3>
+
+            <div id="savings-forecast-chart">
+                {{ savings_growth_chart|safe }}
+            </div>
+
+        </div>
+
+
+        <!-- CHART 2 -->
+
+        <div class="chart-card">
+
+            <h3>
+                Total Expenditure Distribution Donut
+            </h3>
+
+            <div id="spending-pattern-chart">
+                {{ expense_donut_chart|safe }}
+            </div>
+
+        </div>
+
+
+        <!-- CHART 3 -->
+
+        <div class="chart-card">
+
+            <h3>
+                Monthly Income vs Expense
+            </h3>
+
+            <div id="income-expense-chart">
+                {{ income_expense_chart|safe }}
+            </div>
+
+        </div>
+
+
+        <!-- CHART 4 -->
+
+        <div class="chart-card">
+
+            <h3>
+                Monthly Spending Trend
+            </h3>
+
+            <div id="monthly-spending-chart">
+                {{ monthly_spending_chart|safe }}
+            </div>
+
+        </div>
+
+
+        <!-- CHART 5 -->
+
+        <div class="chart-card">
+
+            <h3>
+                Category-wise Spending
+            </h3>
+
+            <div id="category-spending-chart">
+                {{ category_spending_chart|safe }}
+            </div>
+
+        </div>
+
+
+        <!-- CHART 6 -->
+
+        <div class="chart-card">
+
+            <h3>
+                Monthly Savings Rate
+            </h3>
+
+            <div id="savings-rate-chart">
+                {{ savings_rate_chart|safe }}
+            </div>
+
+        </div>
+
+
+        <!-- CHART 7 -->
+
+        <div class="chart-card">
+
+            <h3>
+                Transaction Activity
+            </h3>
+
+            <div id="transaction-activity-chart">
+                {{ transaction_activity_chart|safe }}
+            </div>
+
+        </div>
+
+
+        <!-- CHART 8 -->
+
+        <div class="chart-card">
+
+            <h3>
+                Financial Wellness & Risk Overview
+            </h3>
+
+            <div id="wellness-risk-chart">
+                {{ wellness_risk_chart|safe }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         AI RECOMMENDATION CARD
+         ========================================================= -->
+
+    <div class="wellness-grid">
+
+        <div class="w-card full-width-card">
+
+            <div class="w-card-header">
+
+                <h3>
+                    🎯 Dynamic AI Financial Advisor Suggestions
+                </h3>
+
+            </div>
+
+
+            <div class="recommendations-wrapper">
+
+                {% for rec in insights.Consolidated_Recommendations %}
+
+                <div class="rec-item">
+
+                    <span class="rec-icon">
+                        ✔
+                    </span>
+
+                    <span class="rec-text">
+                        {{ rec }}
+                    </span>
+
+                </div>
+
+                {% empty %}
+
+                <div
+                    class="rec-item"
+                    style="
+                        background: #F8FAFC;
+                        border-left: 4px solid #64748B;
+                    "
+                >
+
+                    <span
+                        class="rec-icon"
+                        style="color: #64748B;"
+                    >
+                        ℹ
+                    </span>
+
+                    <span
+                        class="rec-text"
+                        style="color: #334155;"
+                    >
+                        No current recommendation alerts triggered.
+                        Your financial dashboard is optimal.
+                    </span>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     ACCORDION + SHAP BAR LOGIC
+     ========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =========================================================
+       ACCORDION LOGIC
+       ========================================================= */
+
+    document.querySelectorAll(".accordion-trigger").forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const content = button.nextElementSibling;
+
+            content.classList.toggle("open");
+
+            const arrow = button.querySelector(".arrow");
+
+            if (arrow) {
+
+                arrow.textContent =
+                    content.classList.contains("open")
+                        ? "▲"
+                        : "▼";
+
+            }
+
+        });
+
+    });
+
+
+    /* =========================================================
+       SHAP BAR WIDTH CALCULATION
+       =========================================================
+       Uses absolute SHAP values so the largest SHAP factor
+       receives a 100% bar and all others are scaled relative
+       to it.
+       ========================================================= */
+
+    document.querySelectorAll(".shap-list").forEach(function (list) {
+
+        const bars = list.querySelectorAll(".shap-bar");
+
+        if (!bars.length) {
+            return;
+        }
+
+
+        let maxValue = 0;
+
+
+        /* Find largest absolute SHAP value */
+
+        bars.forEach(function (bar) {
+
+            const value = parseFloat(
+                bar.getAttribute("data-shap-value")
+            );
+
+            if (!isNaN(value) && value > maxValue) {
+                maxValue = value;
+            }
+
+        });
+
+
+        /* Calculate relative bar width */
+
+        bars.forEach(function (bar) {
+
+            const value = parseFloat(
+                bar.getAttribute("data-shap-value")
+            );
+
+            if (isNaN(value) || maxValue === 0) {
+
+                bar.style.width = "3%";
+
+            } else {
+
+                const percentage =
+                    (value / maxValue) * 100;
+
+                bar.style.width =
+                    Math.max(3, Math.min(100, percentage)) + "%";
+
+            }
+
+        });
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,416 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+Elder User Benefits | EthosBank AI
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/elder_benefits.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="benefits-container">
+
+    <div class="benefits-header">
+        <div>
+            <h1>👴 Elder User Benefits</h1>
+            <p>
+                Explore financial benefits, savings schemes and assistance
+                available for senior customers.
+            </p>
+        </div>
+    </div>
+
+
+    <!-- INTRODUCTION -->
+
+    <div class="benefits-intro">
+
+        <div class="intro-icon">
+            🛡️
+        </div>
+
+        <div>
+            <h2>Benefits Designed for You</h2>
+
+            <p>
+                EthosBank AI helps elder customers understand available
+                financial benefits, eligibility requirements and the steps
+                required to obtain them.
+            </p>
+
+            <p class="note">
+                💡 Always verify eligibility and current interest rates with
+                the bank or official government source before applying.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- BENEFITS GRID -->
+
+    <div class="benefits-grid">
+
+
+        <!-- SENIOR CITIZEN SAVINGS SCHEME -->
+
+        <div class="benefit-card">
+
+            <div class="benefit-icon">
+                💰
+            </div>
+
+            <h2>Senior Citizen Savings Scheme</h2>
+
+            <span class="benefit-tag">
+                Government-Backed Savings
+            </span>
+
+            <p>
+                A savings scheme designed specifically for senior citizens
+                looking for a relatively stable source of income.
+            </p>
+
+            <div class="benefit-section">
+
+                <h3>Who may be eligible?</h3>
+
+                <ul>
+                    <li>Senior citizens meeting the applicable age criteria.</li>
+                    <li>Eligible retirees subject to scheme rules.</li>
+                    <li>Investment must follow the applicable scheme limits.</li>
+                </ul>
+
+            </div>
+
+            <div class="benefit-section">
+
+                <h3>How to obtain it</h3>
+
+                <ol>
+                    <li>Visit the bank branch or permitted online channel.</li>
+                    <li>Request an SCSS application form.</li>
+                    <li>Provide the required identity and address documents.</li>
+                    <li>Submit the investment amount.</li>
+                    <li>Receive confirmation of the account.</li>
+                </ol>
+
+            </div>
+
+            <div class="documents">
+
+                <strong>📄 Commonly required documents</strong>
+
+                <p>
+                    Identity proof, address proof, age proof, photographs
+                    and applicable account/bank details.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- SENIOR CITIZEN FD -->
+
+        <div class="benefit-card">
+
+            <div class="benefit-icon">
+                🏦
+            </div>
+
+            <h2>Senior Citizen Fixed Deposit</h2>
+
+            <span class="benefit-tag">
+                Savings
+            </span>
+
+            <p>
+                Senior citizens may receive preferential interest rates on
+                eligible fixed deposit products depending on the bank's
+                current policy.
+            </p>
+
+            <div class="benefit-section">
+
+                <h3>Potential benefit</h3>
+
+                <ul>
+                    <li>Potential preferential interest rate.</li>
+                    <li>Predictable returns.</li>
+                    <li>Multiple tenure options.</li>
+                </ul>
+
+            </div>
+
+            <div class="benefit-section">
+
+                <h3>How to obtain it</h3>
+
+                <ol>
+                    <li>Choose an eligible fixed deposit.</li>
+                    <li>Provide the required KYC documents.</li>
+                    <li>Select the deposit tenure.</li>
+                    <li>Invest the desired amount.</li>
+                    <li>Confirm the maturity instructions.</li>
+                </ol>
+
+            </div>
+
+        </div>
+
+
+        <!-- PENSION -->
+
+        <div class="benefit-card">
+
+            <div class="benefit-icon">
+                💳
+            </div>
+
+            <h2>Pension & Income Assistance</h2>
+
+            <span class="benefit-tag">
+                Financial Assistance
+            </span>
+
+            <p>
+                Eligible senior citizens may have access to pension,
+                government assistance or other income-support programmes.
+            </p>
+
+            <div class="benefit-section">
+
+                <h3>How EthosBank AI helps</h3>
+
+                <ul>
+                    <li>Identify potentially relevant schemes.</li>
+                    <li>Explain basic eligibility requirements.</li>
+                    <li>Show documents commonly required.</li>
+                    <li>Provide application guidance.</li>
+                </ul>
+
+            </div>
+
+            <div class="benefit-section">
+
+                <h3>How to obtain assistance</h3>
+
+                <ol>
+                    <li>Check the applicable government scheme.</li>
+                    <li>Verify your eligibility.</li>
+                    <li>Collect the required documents.</li>
+                    <li>Apply through the official channel.</li>
+                    <li>Track the application status.</li>
+                </ol>
+
+            </div>
+
+        </div>
+
+
+        <!-- TAX BENEFITS -->
+
+        <div class="benefit-card">
+
+            <div class="benefit-icon">
+                🧾
+            </div>
+
+            <h2>Senior Citizen Tax Benefits</h2>
+
+            <span class="benefit-tag">
+                Tax Awareness
+            </span>
+
+            <p>
+                Certain tax provisions may provide different treatment or
+                deductions for eligible senior citizens under applicable
+                Indian tax rules.
+            </p>
+
+            <div class="benefit-section">
+
+                <h3>EthosBank AI assistance</h3>
+
+                <ul>
+                    <li>Identify potentially applicable benefits.</li>
+                    <li>Explain the basic concept.</li>
+                    <li>Highlight documents that may be needed.</li>
+                    <li>Help organize financial information.</li>
+                </ul>
+
+            </div>
+
+            <div class="documents">
+
+                <strong>⚠️ Important</strong>
+
+                <p>
+                    Tax rules can change. Confirm the current rules with the
+                    Income Tax Department or a qualified tax professional.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- HEALTHCARE -->
+
+        <div class="benefit-card">
+
+            <div class="benefit-icon">
+                🏥
+            </div>
+
+            <h2>Healthcare & Welfare Schemes</h2>
+
+            <span class="benefit-tag">
+                Welfare
+            </span>
+
+            <p>
+                Depending on eligibility and location, senior citizens may
+                qualify for healthcare or welfare programmes.
+            </p>
+
+            <div class="benefit-section">
+
+                <h3>How to obtain them</h3>
+
+                <ol>
+                    <li>Identify the applicable scheme.</li>
+                    <li>Check eligibility criteria.</li>
+                    <li>Prepare identity and supporting documents.</li>
+                    <li>Apply through the official portal or authority.</li>
+                    <li>Keep the acknowledgement/application number.</li>
+                </ol>
+
+            </div>
+
+        </div>
+
+
+        <!-- FRAUD PROTECTION -->
+
+        <div class="benefit-card special-card">
+
+            <div class="benefit-icon">
+                🛡️
+            </div>
+
+            <h2>Elder Fraud Protection</h2>
+
+            <span class="benefit-tag">
+                EthosBank AI Protection
+            </span>
+
+            <p>
+                EthosBank AI provides additional financial safety features
+                designed to help elder customers recognize suspicious
+                financial activity and potentially manipulative offers.
+            </p>
+
+            <div class="benefit-section">
+
+                <h3>Protection includes</h3>
+
+                <ul>
+                    <li>Suspicious transaction monitoring.</li>
+                    <li>Fraud-risk alerts.</li>
+                    <li>Suspicious offer detection.</li>
+                    <li>Financial manipulation warnings.</li>
+                    <li>Trusted-contact support.</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- HOW ETHOSBANK HELPS -->
+
+    <div class="how-it-works">
+
+        <h2>How EthosBank AI Helps Elder Customers</h2>
+
+        <div class="steps">
+
+            <div class="step">
+
+                <span>1</span>
+
+                <h3>Identify</h3>
+
+                <p>
+                    The system identifies potentially relevant financial
+                    benefits based on your profile.
+                </p>
+
+            </div>
+
+            <div class="step">
+
+                <span>2</span>
+
+                <h3>Understand</h3>
+
+                <p>
+                    Each benefit is explained in simple language.
+                </p>
+
+            </div>
+
+            <div class="step">
+
+                <span>3</span>
+
+                <h3>Prepare</h3>
+
+                <p>
+                    Required documents and eligibility information are
+                    displayed.
+                </p>
+
+            </div>
+
+            <div class="step">
+
+                <span>4</span>
+
+                <h3>Apply</h3>
+
+                <p>
+                    The user receives guidance about the appropriate
+                    official application channel.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="safety-notice">
+
+        <strong>🔐 Safety Notice</strong>
+
+        <p>
+            EthosBank AI provides informational guidance and does not
+            automatically approve government or banking benefits.
+            Always submit applications through official channels and
+            never share OTPs, PINs or passwords with anyone.
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

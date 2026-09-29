@@ -1,0 +1,339 @@
+/* =========================================================
+   ETHOSBANK AI — LOGIN
+   Professional corporate-banking look (HDFC / SBI register)
+   with restrained industrial detailing: steel rules, riveted
+   panel corners, embossed edges, tabular data typography.
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root{
+    --navy:#0B2447;
+    --navy-deep:#081A34;
+    --blue:#1D4ED8;
+    --blue-light:#2563EB;
+    --green:#0F9D6E;
+    --red:#C0392B;
+    --steel:#94A3B8;
+    --steel-line:#CBD5E1;
+    --bg:#EEF1F6;
+    --panel:#FFFFFF;
+    --text:#1E293B;
+    --text-mute:#64748B;
+    --border:#E2E8F0;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+html,body{
+    height:100%;
+}
+
+body{
+    background:
+        linear-gradient(180deg, var(--navy) 0px, var(--navy) 220px, var(--bg) 220px, var(--bg) 100%);
+    color:var(--text);
+    position:relative;
+}
+
+/* faint structural grid on the navy band, like an engineering elevation drawing */
+body::before{
+    content:"";
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:220px;
+    background:
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.045) 0px, rgba(255,255,255,0.045) 1px, transparent 1px, transparent 56px);
+    pointer-events:none;
+}
+
+/* ---------- motion (subtle, corporate) ---------- */
+
+@keyframes card-in{
+    0%{ opacity:0; transform:translateY(16px); }
+    100%{ opacity:1; transform:translateY(0); }
+}
+
+@keyframes pulse-live{
+    0%,100%{ box-shadow:0 0 0 0 rgba(15,157,110,0.4); }
+    50%{ box-shadow:0 0 0 5px rgba(15,157,110,0); }
+}
+
+@keyframes shake{
+    0%,100%{ transform:translateX(0); }
+    20%,60%{ transform:translateX(-5px); }
+    40%,80%{ transform:translateX(5px); }
+}
+
+/* ---------- layout ---------- */
+
+.container{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:56px 20px 40px;
+}
+
+.container::before{
+    content:"AUTHORISED ACCESS ONLY  ·  256-BIT ENCRYPTED SESSION";
+    color:rgba(255,255,255,0.55);
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.16em;
+    margin-bottom:34px;
+    text-align:center;
+}
+
+.login-card{
+    width:100%;
+    max-width:420px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:26px 38px 34px;
+    position:relative;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,0.6) inset,
+        0 24px 48px rgba(8,26,52,0.22),
+        0 2px 6px rgba(8,26,52,0.08);
+    animation:card-in 0.45s ease both;
+    overflow:hidden;
+    border-top:5px solid transparent;
+    background-image:
+        linear-gradient(var(--panel), var(--panel)),
+        linear-gradient(90deg, var(--navy) 0%, var(--blue) 45%, var(--green) 100%);
+    background-origin:border-box;
+    background-clip:padding-box, border-box;
+}
+
+/* riveted corner ticks on the card body, kept quiet */
+.login-card::after{
+    content:"";
+    position:absolute;
+    top:16px; left:16px; right:16px; bottom:16px;
+    border:1px solid rgba(11,36,71,0.05);
+    border-radius:8px;
+    pointer-events:none;
+}
+
+.login-card > *{
+    position:relative;
+    z-index:1;
+}
+
+.logo{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.12em;
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-bottom:22px;
+    text-transform:uppercase;
+}
+
+.logo::before{
+    content:"";
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--green);
+    animation:pulse-live 2.2s infinite;
+}
+
+.login-card h2{
+    font-size:23px;
+    font-weight:600;
+    color:var(--navy-deep);
+    margin-bottom:6px;
+}
+
+.login-card > p{
+    color:var(--text-mute);
+    font-size:13.5px;
+    margin-bottom:20px;
+}
+
+/* ---------- messages ---------- */
+
+.error-box{
+    background:#FDEDEC;
+    border:1px solid #F3C6C1;
+    border-left:3px solid var(--red);
+    color:#8B2418;
+    padding:11px 14px;
+    border-radius:5px;
+    font-size:13px;
+    margin-bottom:16px;
+    animation:shake 0.4s ease;
+}
+
+/* ---------- form ---------- */
+
+form{
+    display:flex;
+    flex-direction:column;
+}
+
+.input-group{
+    margin-bottom:19px;
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.input-group label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    color:var(--steel);
+    text-transform:uppercase;
+}
+
+.input-group input[type="text"],
+.input-group input[type="password"]{
+    background:#F8FAFC;
+    border:1px solid var(--steel-line);
+    border-radius:6px;
+    padding:12px 14px;
+    color:var(--text);
+    font-size:14.5px;
+    outline:none;
+    transition:border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input-group input::placeholder{
+    color:#A6B0BF;
+}
+
+.input-group input:hover{
+    border-color:var(--steel);
+}
+
+.input-group input:focus{
+    border-color:var(--blue);
+    background:#FFFFFF;
+    box-shadow:0 0 0 3px rgba(29,78,216,0.12);
+}
+
+.input-group .g-recaptcha{
+    transform-origin:left top;
+}
+
+/* ---------- remember me ---------- */
+
+.remember{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-bottom:24px;
+}
+
+.remember input[type="checkbox"]{
+    width:15px;
+    height:15px;
+    accent-color:var(--blue);
+    cursor:pointer;
+}
+
+.remember label{
+    font-size:13px;
+    color:var(--text-mute);
+    cursor:pointer;
+}
+
+/* ---------- login button ---------- */
+
+.login-btn{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:6px;
+    background:linear-gradient(180deg, var(--blue-light), var(--blue));
+    color:#fff;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:0.01em;
+    cursor:pointer;
+    box-shadow:0 1px 0 rgba(255,255,255,0.15) inset, 0 8px 18px rgba(29,78,216,0.28);
+    transition:transform 0.12s ease, box-shadow 0.12s ease, filter 0.15s ease;
+}
+
+.login-btn:hover{
+    filter:brightness(1.05);
+    transform:translateY(1px);
+    box-shadow:0 1px 0 rgba(255,255,255,0.15) inset, 0 5px 12px rgba(29,78,216,0.3);
+}
+
+.login-btn:active{
+    transform:translateY(2px);
+}
+
+.login-btn:focus-visible{
+    outline:2px solid var(--navy);
+    outline-offset:3px;
+}
+
+/* ---------- register section ---------- */
+
+.register-section{
+    margin-top:6px;
+    padding-top:20px;
+    border-top:1px solid var(--border);
+    text-align:center;
+}
+
+.register-section p{
+    color:var(--text-mute);
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.register-btn{
+    display:inline-block;
+    text-decoration:none;
+    padding:10px 26px;
+    border:1px solid var(--navy);
+    border-radius:6px;
+    color:var(--navy);
+    font-size:13.5px;
+    font-weight:600;
+    transition:background 0.15s ease, color 0.15s ease;
+}
+
+.register-btn:hover{
+    background:var(--navy);
+    color:#fff;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width:480px){
+    .login-card{
+        padding-left:24px;
+        padding-right:24px;
+    }
+    .container::before{
+        font-size:9px;
+    }
+}
+
+/* ---------- accessibility ---------- */
+
+@media (prefers-reduced-motion: reduce){
+    *{
+        animation:none !important;
+        transition:none !important;
+    }
+}

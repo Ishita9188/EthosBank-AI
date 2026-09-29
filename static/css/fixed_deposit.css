@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+.main-content,
+.main-content *{
+    font-family:'JetBrains Mono', monospace;
+}
+
+.fd-page{
+    width:100%;
+}
+
+.page-header{
+    margin-bottom:30px;
+}
+
+.balance-banner{
+    background:#14532D;
+    color:white;
+    padding:30px;
+    border-radius:20px;
+    margin-bottom:30px;
+}
+
+.fd-layout{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+.fd-form-card,
+.fd-info-card,
+.fd-table{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    border:1px solid #E2E8F0;
+}
+
+.fd-form-card form{
+    display:flex;
+    flex-direction:column;
+}
+
+.fd-form-card input,
+.fd-form-card select{
+    padding:12px;
+    margin-bottom:20px;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+.fd-form-card button{
+    background:#14532D;
+    color:white;
+    border:1px solid rgba(255,255,255,0.15);
+    padding:14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    box-shadow:0 2px 0 rgba(0,0,0,0.15), 0 6px 14px rgba(20,83,45,0.25);
+    transition:transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.fd-form-card button:hover{
+    transform:translateY(1px);
+    box-shadow:0 1px 0 rgba(0,0,0,0.15), 0 4px 10px rgba(20,83,45,0.28);
+}
+
+.fd-table{
+    margin-top:30px;
+}
+
+.fd-table table{
+    width:100%;
+    border-collapse:collapse;
+}
+h2{
+    padding-bottom: 16px;
+}
+.fd-table th,
+.fd-table td{
+    padding:15px;
+    border-bottom:1px solid #eee;
+}

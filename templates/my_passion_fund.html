@@ -1,0 +1,201 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+My Passion Fund
+{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\my_passion_fund.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="page-header">
+
+    <h1>
+        My Passion Fund
+    </h1>
+
+    <p>
+        Save towards your dreams and passions.
+    </p>
+
+</div>
+<div class="stats-row">
+
+    <div class="stat-card">
+
+        <h4>
+            Active Passion Funds
+        </h4>
+
+        <h2>
+            {{ funds.count }}
+        </h2>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h4>
+            Total Saved
+        </h4>
+
+        <h2>
+            ₹ {{ total_saved }}
+        </h2>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h4>
+            Dream Progress
+        </h4>
+
+        <h2>
+            {{ progress_percent }}%
+        </h2>
+
+    </div>
+
+</div>
+<div class="fund-form">
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <label>
+        Fund Name
+    </label>
+
+    <input
+        type="text"
+        name="fund_name"
+        placeholder="Europe Trip Fund"
+        required
+    >
+
+    <label>
+        Passion Category
+    </label>
+
+    <select name="passion_type">
+
+        <option>
+            Travel
+        </option>
+
+        <option>
+            Education
+        </option>
+
+        <option>
+            Vehicle
+        </option>
+
+        <option>
+            Photography
+        </option>
+
+        <option>
+            Wedding
+        </option>
+
+        <option>
+            Other
+        </option>
+
+    </select>
+
+    <label>
+        Monthly Installment
+    </label>
+
+    <input
+        type="number"
+        name="monthly_installment"
+        min="1000"
+        required
+    >
+
+    <label>
+        Target Amount
+    </label>
+
+    <input
+        type="number"
+        name="target_amount"
+        required
+    >
+
+    <button type="submit">
+
+        Create Fund
+
+    </button>
+
+</form>
+
+</div>
+
+<div class="funds-grid">
+
+{% for fund in funds %}
+
+<div class="fund-card">
+
+    <h2>
+        {{ fund.fund_name }}
+    </h2>
+
+    <p>
+        {{ fund.passion_type }}
+    </p>
+
+    <h3>
+
+        ₹ {{ fund.current_amount }}
+
+        /
+
+        ₹ {{ fund.target_amount }}
+
+    </h3>
+
+    <progress
+        value="{{ fund.current_amount }}"
+        max="{{ fund.target_amount }}">
+    </progress>
+
+    <form
+
+      action="{% url 'passion_fund_topup' fund.id %}"
+
+      method="POST">
+
+        {% csrf_token %}
+
+        <input
+            type="number"
+            name="amount"
+            placeholder="Top-up Amount"
+            required
+        >
+
+        <button>
+
+            Add Top-up
+
+        </button>
+
+    </form>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

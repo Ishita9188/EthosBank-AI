@@ -1,0 +1,171 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+Fixed Deposit
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\fixed_deposit.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="fd-page">
+
+    <div class="page-header">
+
+        <h1>Fixed Deposit</h1>
+
+        <p>
+            Secure your savings with guaranteed returns.
+        </p>
+
+    </div>
+
+    <div class="balance-banner">
+
+        <h3>Available Balance</h3>
+
+        <h1>
+            ₹ {{ wallet.balance }}
+        </h1>
+
+    </div>
+
+    <div class="fd-layout">
+
+        <div class="fd-form-card">
+
+            <h2>Create Fixed Deposit</h2>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <label>
+                    Deposit Amount
+                </label>
+
+                <input
+                    type="number"
+                    name="amount"
+                    required
+                >
+
+                <label>
+                    Tenure
+                </label>
+
+                <select name="tenure">
+
+                    <option value="6">
+                        6 Months
+                    </option>
+
+                    <option value="12">
+                        1 Year
+                    </option>
+
+                    <option value="24">
+                        2 Years
+                    </option>
+
+                    <option value="36">
+                        3 Years
+                    </option>
+
+                    <option value="60">
+                        5 Years
+                    </option>
+
+                </select>
+
+                <button type="submit">
+
+                    Create FD
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="fd-info-card">
+
+            <h2>Interest Rates</h2>
+
+            <ul>
+
+                <li>6 Months - 5.5%</li>
+
+                <li>1 Year - 6.5%</li>
+
+                <li>2 Years - 7.0%</li>
+
+                <li>3 Years - 7.5%</li>
+
+                <li>5 Years - 8.0%</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="fd-table">
+
+        <h2>Your Fixed Deposits</h2>
+
+        <table>
+
+            <tr>
+
+                <th>Amount</th>
+
+                <th>Tenure</th>
+
+                <th>Rate</th>
+
+                <th>Maturity Amount</th>
+
+                <th>Status</th>
+
+            </tr>
+
+            {% for fd in fds %}
+
+            <tr>
+
+                <td>
+                    ₹ {{ fd.amount }}
+                </td>
+
+                <td>
+                    {{ fd.tenure_months }} Months
+                </td>
+
+                <td>
+                    {{ fd.interest_rate }}%
+                </td>
+
+                <td>
+                    ₹ {{ fd.maturity_amount }}
+                </td>
+
+                <td>
+                    {{ fd.status }}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,156 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Login | EthosBank AI</title>
+
+    <link rel="stylesheet"
+          href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\login.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js"
+            async
+            defer>
+    </script>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="login-card">
+
+        <div class="logo">
+            EthosBank AI
+        </div>
+
+        <h2>Secure Login</h2>
+
+        <p>
+            Access your ethical banking dashboard
+        </p>
+
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="error-box">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- CUSTOMER ID -->
+
+            <div class="input-group">
+
+                <label>Customer ID</label>
+
+                <input
+                    type="text"
+                    name="customer_id"
+                    required
+                    autocomplete="username"
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    required
+                    autocomplete="current-password"
+                >
+
+            </div>
+
+
+            <!-- GOOGLE reCAPTCHA -->
+
+            <div class="input-group">
+
+                <label>Security Verification</label>
+
+                <div class="g-recaptcha"
+                     data-sitekey="{{ recaptcha_site_key }}">
+                </div>
+
+            </div>
+
+
+            <!-- REMEMBER ME -->
+
+            <div class="remember">
+
+                <input
+                    type="checkbox"
+                    name="remember_me"
+                    id="remember_me"
+                >
+
+                <label for="remember_me">
+                    Remember Me
+                </label>
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="login-btn">
+
+                Login
+
+            </button>
+
+        </form>
+        <div class="register-section">
+
+        <p>
+            New to EthosBank AI?
+        </p>
+
+        <a href="{% url 'register' %}"
+           class="register-btn">
+
+            Register
+
+        </a>
+
+    </div>
+
+    </div>
+    
+    
+
+</div>
+
+</body>
+
+</html>

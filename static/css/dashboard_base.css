@@ -1,0 +1,454 @@
+/* =========================================================
+   ETHOSBANK AI — DASHBOARD SHELL
+   Same professional corporate-banking + industrial language
+   as login.css / style.css: navy sidebar, steel hairlines,
+   tabular-mono for data, restrained motion.
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root{
+    --navy:#0B2447;
+    --navy-deep:#081A34;
+    --blue:#1D4ED8;
+    --blue-light:#2563EB;
+    --green:#0F9D6E;
+    --red:#C0392B;
+    --amber:#B7791F;
+    --steel:#94A3B8;
+    --steel-line:#CBD5E1;
+    --bg:#EEF1F6;
+    --panel:#FFFFFF;
+    --text:#1E293B;
+    --text-mute:#64748B;
+    --border:#E2E8F0;
+
+    --sidebar-w:250px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+html,body{
+    height:100%;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+::-webkit-scrollbar{
+    width:8px;
+    height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,0.15);
+    border-radius:8px;
+}
+
+/* ---------- motion (subtle, corporate) ---------- */
+
+@keyframes pulse-live{
+    0%,100%{ box-shadow:0 0 0 0 rgba(15,157,110,0.4); }
+    50%{ box-shadow:0 0 0 5px rgba(15,157,110,0); }
+}
+
+@keyframes fade-up{
+    0%{ opacity:0; transform:translateY(10px); }
+    100%{ opacity:1; transform:translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce){
+    *{
+        animation:none !important;
+        transition:none !important;
+    }
+}
+
+/* ---------- shell ---------- */
+
+.container{
+    display:flex;
+    min-height:100vh;
+}
+
+/* ---------- sidebar ---------- */
+
+.sidebar{
+    width:var(--sidebar-w);
+    flex-shrink:0;
+    background:linear-gradient(180deg, var(--navy), var(--navy-deep));
+    padding:26px 16px;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+}
+
+/* faint structural grid, matching the landing/login header bands */
+.sidebar{
+    background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 40px),
+        linear-gradient(180deg, var(--navy), var(--navy-deep));
+}
+
+.sidebar h2{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0;
+    letter-spacing:0;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:6px 10px 26px;
+    margin-bottom:18px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+/* "EB" logo mark, same device as the landing page */
+.sidebar h2::before{
+    content:"EB";
+    font-size:14px;
+    font-weight:700;
+    width:38px;
+    height:38px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(155deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:6px;
+    color:var(--green);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.sidebar h2::after{
+    content:"EthosBank AI";
+    font-family:'Poppins', sans-serif;
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:0.01em;
+}
+
+.sidebar ul{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    flex:1;
+}
+
+.sidebar li a{
+    display:flex;
+    align-items:center;
+    padding:11px 14px;
+    border-radius:6px;
+    font-size:13.5px;
+    color:rgba(255,255,255,0.68);
+    border-left:3px solid transparent;
+    transition:background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.sidebar li a:hover{
+    background:rgba(255,255,255,0.06);
+    color:#fff;
+}
+
+.sidebar li a.active{
+    background:rgba(37,99,235,0.16);
+    border-left-color:var(--green);
+    color:#fff;
+    font-weight:500;
+}
+
+/* logout pinned visually apart from nav items */
+.sidebar li:last-child{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar li:last-child a{
+    color:rgba(255,255,255,0.55);
+}
+
+.sidebar li:last-child a:hover{
+    color:#fecaca;
+    background:rgba(192,57,43,0.12);
+}
+
+/* ---------- main content ---------- */
+
+.main-content{
+    flex:1;
+    padding:34px 40px;
+    min-width:0;
+    animation:fade-up 0.35s ease both;
+}
+
+/* ---------- shared dashboard components ----------
+   Available to any {% block content %} template that
+   extends this base, so sub-pages stay visually consistent
+   without re-declaring the theme. ---------- */
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:26px;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--border);
+}
+
+.page-header h1{
+    font-size:22px;
+    font-weight:600;
+    color:var(--navy-deep);
+}
+
+.page-header p{
+    color:var(--text-mute);
+    font-size:13.5px;
+    margin-top:4px;
+}
+
+.page-status{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--green);
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.page-status::before{
+    content:"";
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+    animation:pulse-live 2.2s infinite;
+}
+
+.card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:22px;
+    box-shadow:0 2px 6px rgba(8,26,52,0.05);
+}
+
+.card + .card{
+    margin-top:20px;
+}
+
+.stat-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+    gap:18px;
+    margin-bottom:22px;
+}
+
+.stat-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-left:3px solid var(--blue);
+    border-radius:8px;
+    padding:18px;
+}
+
+.stat-card .label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    color:var(--steel);
+    text-transform:uppercase;
+}
+
+.stat-card .value{
+    font-family:'JetBrains Mono', monospace;
+    font-size:24px;
+    font-weight:600;
+    color:var(--navy-deep);
+    margin:8px 0 4px;
+}
+
+.stat-card .sub{
+    font-size:12px;
+    color:var(--text-mute);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.08em;
+    color:var(--steel);
+    text-transform:uppercase;
+    padding:10px 12px;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:12px;
+    font-size:13.5px;
+    border-bottom:1px solid var(--border);
+}
+
+tr:last-child td{
+    border-bottom:none;
+}
+
+.amount{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:600;
+}
+
+.amount.positive{
+    color:var(--green);
+}
+
+.amount.negative{
+    color:var(--red);
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:11px 22px;
+    border:none;
+    border-radius:6px;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:transform 0.12s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary{
+    background:linear-gradient(180deg, var(--blue-light), var(--blue));
+    color:#fff;
+    box-shadow:0 1px 0 rgba(255,255,255,0.15) inset, 0 6px 14px rgba(29,78,216,0.25);
+}
+
+.btn-primary:hover{
+    filter:brightness(1.05);
+    transform:translateY(1px);
+}
+
+.btn-outline{
+    background:transparent;
+    border:1px solid var(--navy);
+    color:var(--navy);
+}
+
+.btn-outline:hover{
+    background:var(--navy);
+    color:#fff;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    padding:4px 10px;
+    border-radius:20px;
+}
+
+.badge-success{
+    background:rgba(15,157,110,0.1);
+    color:var(--green);
+    border:1px solid rgba(15,157,110,0.3);
+}
+
+.badge-warning{
+    background:rgba(183,121,31,0.1);
+    color:var(--amber);
+    border:1px solid rgba(183,121,31,0.3);
+}
+
+.badge-danger{
+    background:rgba(192,57,43,0.1);
+    color:var(--red);
+    border:1px solid rgba(192,57,43,0.3);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width:900px){
+    .container{
+        flex-direction:column;
+    }
+    .sidebar{
+        width:100%;
+        min-height:auto;
+        flex-direction:row;
+        align-items:center;
+        overflow-x:auto;
+        padding:14px 16px;
+    }
+    .sidebar h2{
+        border-bottom:none;
+        padding:0 16px 0 0;
+        margin-bottom:0;
+        margin-right:10px;
+    }
+    .sidebar ul{
+        flex-direction:row;
+    }
+    .sidebar li:last-child{
+        margin-top:0;
+        padding-top:0;
+        border-top:none;
+        margin-left:auto;
+    }
+    .main-content{
+        padding:24px 20px;
+    }
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+.container {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main-content {
+    margin-left: var(--sidebar-w);
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

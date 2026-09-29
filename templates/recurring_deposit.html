@@ -1,0 +1,316 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+Recurring Deposit
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\recurring_deposit.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="rd-page">
+
+    <div class="page-header">
+
+        <h1>Recurring Deposit</h1>
+
+        <p>
+            Build savings through monthly investments.
+        </p>
+
+    </div>
+
+    <div class="balance-banner">
+
+        <h3>Wallet Balance</h3>
+
+        <h1>
+            ₹ {{ wallet.balance }}
+        </h1>
+
+    </div>
+
+    <div class="rd-layout">
+
+        <div class="rd-form-card">
+
+            <h2>Create RD</h2>
+
+            <form method="POST">
+
+    {% csrf_token %}
+
+    <label>
+        Monthly Deposit Amount
+    </label>
+
+    <input
+        type="number"
+        step="0.01"
+        min="100"
+        id="monthly_amount"
+        name="monthly_amount"
+        placeholder="Enter Monthly Deposit"
+        required
+    >
+
+    <label>
+        Tenure
+    </label>
+
+    <select
+        id="tenure"
+        name="tenure"
+        onchange="calculateRD()"
+    >
+
+        <option value="12">
+            1 Year
+        </option>
+
+        <option value="24">
+            2 Years
+        </option>
+
+        <option value="36">
+            3 Years
+        </option>
+
+        <option value="60">
+            5 Years
+        </option>
+
+    </select>
+
+    <div class="calculator-card">
+
+        <h3>RD Calculator</h3>
+
+        <p>
+            Total Investment:
+            <strong>
+                ₹ <span id="investment">0</span>
+            </strong>
+        </p>
+
+        <p>
+            Estimated Interest:
+            <strong>
+                ₹ <span id="interest">0</span>
+            </strong>
+        </p>
+
+        <p>
+            Estimated Maturity Amount:
+            <strong>
+                ₹ <span id="maturity">0</span>
+            </strong>
+        </p>
+
+    </div>
+
+    <button type="submit">
+        Create Recurring Deposit
+    </button>
+
+</form>
+        </div>
+
+        <div class="rd-info-card">
+
+            <h2>RD Benefits</h2>
+
+            <ul>
+
+                <li>Disciplined Savings</li>
+
+                <li>Guaranteed Returns</li>
+
+                <li>Flexible Monthly Amount</li>
+
+                <li>Low Risk Investment</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="rd-table">
+
+        <h2>Your Recurring Deposits</h2>
+
+        <table>
+
+            <tr>
+
+    <th>Monthly Amount</th>
+
+    <th>Tenure</th>
+
+    <th>Rate</th>
+
+    <th>Maturity Amount</th>
+
+    <th>Paid</th>
+
+    <th>Status</th>
+
+    <th>Action</th>
+    <th>Next Due Date</th>
+
+</tr>
+
+{% for rd in rds %}
+
+<tr>
+
+    <td>
+        ₹ {{ rd.monthly_amount }}
+    </td>
+
+    <td>
+        {{ rd.tenure_months }} Months
+    </td>
+
+    <td>
+        {{ rd.interest_rate }}%
+    </td>
+
+    <td>
+        ₹ {{ rd.maturity_amount }}
+    </td>
+
+    <td>
+
+        {{ rd.installments_paid }}
+
+        /
+
+        {{ rd.total_installments }}
+
+    </td>
+
+    <td>
+
+        {% if rd.installments_paid == rd.total_installments %}
+
+            <span class="completed">
+                Completed
+            </span>
+
+        {% else %}
+
+            <span class="active">
+                Active
+            </span>
+
+        {% endif %}
+
+    </td>
+
+    <td>
+
+        {% if rd.installments_paid < rd.total_installments %}
+
+        <a href="{% url 'pay_rd_installment' rd.id %}"
+           class="pay-btn">
+
+            Pay This Month's Installment
+
+        </a>
+
+        {% else %}
+
+            Maturity Reached
+
+        {% endif %}
+
+    </td>
+    <td>
+    {{ rd.next_due_date }}
+</td>
+
+</tr>
+
+{% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+<script>
+
+document
+.getElementById("monthly_amount")
+.addEventListener(
+    "input",
+    calculateRD
+);
+
+function calculateRD(){
+
+    let amount =
+        parseFloat(
+            document.getElementById(
+                "monthly_amount"
+            ).value
+        ) || 0;
+
+    let tenure =
+        parseInt(
+            document.getElementById(
+                "tenure"
+            ).value
+        );
+
+    let rates = {
+
+        12: 6.5,
+        24: 7.0,
+        36: 7.5,
+        60: 8.0
+
+    };
+
+    let rate = rates[tenure];
+
+    let investment =
+        amount * tenure;
+
+    let interest =
+        (
+            investment *
+            rate *
+            tenure
+        ) / 2400;
+
+    let maturity =
+        investment + interest;
+
+    document.getElementById(
+        "investment"
+    ).innerHTML =
+        investment.toFixed(2);
+
+    document.getElementById(
+        "interest"
+    ).innerHTML =
+        interest.toFixed(2);
+
+    document.getElementById(
+        "maturity"
+    ).innerHTML =
+        maturity.toFixed(2);
+
+}
+
+calculateRD();
+
+</script>
+{% endblock %}

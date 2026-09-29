@@ -1,0 +1,200 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+Deposit Funds
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\deposit.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="deposit-page">
+
+    <div class="page-header">
+
+        <h1>Deposit Center</h1>
+
+        <p>
+            Manage deposits, savings products and wallet funding.
+        </p>
+
+    </div>
+
+    <div class="balance-banner">
+
+        <div>
+
+            <h3>Available Wallet Balance</h3>
+
+            <h1>₹ {{ wallet.balance }}</h1>
+
+        </div>
+
+    </div>
+
+    <div class="products-section">
+
+        <h2>Deposit Products</h2>
+
+        <div class="product-grid">
+
+            <a href="{% url 'fixed_deposit' %}"
+               class="product-card">
+
+                <h3>Fixed Deposit</h3>
+
+                <p>
+                    Secure long-term savings with fixed returns.
+                </p>
+
+            </a>
+
+            <a href="{% url 'recurring_deposit' %}"
+               class="product-card">
+
+                <h3>Recurring Deposit</h3>
+
+                <p>
+                    Save a fixed amount every month.
+                </p>
+
+            </a>
+
+            <a href="{% url 'passion_fund' %}"
+               class="product-card">
+
+                <h3>My Passion Fund</h3>
+
+                <p>
+                    Create goal-based savings plans.
+                </p>
+
+            </a>
+
+            <a href="{% url 'all_deposits' %}"
+               class="product-card">
+
+                <h3>View All Deposits</h3>
+
+                <p>
+                    Explore all available deposit products.
+                </p>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="deposit-layout">
+
+        <div class="deposit-card">
+
+            <h2>Quick Deposit</h2>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="quick-buttons">
+
+                    <button type="button"
+                            onclick="setAmount(500)">
+                        ₹500
+                    </button>
+
+                    <button type="button"
+                            onclick="setAmount(1000)">
+                        ₹1000
+                    </button>
+
+                    <button type="button"
+                            onclick="setAmount(5000)">
+                        ₹5000
+                    </button>
+
+                    <button type="button"
+                            onclick="setAmount(10000)">
+                        ₹10000
+                    </button>
+
+                </div>
+
+                <label>
+                    Custom Amount
+                </label>
+
+                <input
+                    id="amount"
+                    type="number"
+                    name="amount"
+                    min="1"
+                    step="0.01"
+                    placeholder="Enter amount"
+                    required
+                >
+
+                <button class="deposit-btn"
+                        type="submit">
+
+                    Deposit Now
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="info-card">
+
+            <h2>Deposit Benefits</h2>
+
+            <ul>
+
+                <li>Instant wallet funding</li>
+
+                <li>Goal-based savings options</li>
+
+                <li>AI-powered financial wellness insights</li>
+
+                <li>Track deposits through analytics dashboard</li>
+
+                <li>Supports future FD and RD products</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="message">
+
+                {{ message }}
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+</div>
+
+<script>
+
+function setAmount(value){
+
+    document.getElementById("amount").value = value;
+
+}
+
+</script>
+
+{% endblock %}

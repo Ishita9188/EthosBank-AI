@@ -1,0 +1,1708 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>EthosBank AI | Intelligent Ethical Banking</title>
+
+    <link rel="stylesheet"
+          href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\style.css' %}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<nav class="navbar">
+
+    <div class="logo-area">
+
+        <div class="logo-mark">
+            EB
+        </div>
+
+        <div class="logo-text">
+            <strong>EthosBank</strong>
+            <span>AI</span>
+        </div>
+
+    </div>
+
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="#home">Home</a>
+        </li>
+
+        <li>
+            <a href="#capabilities">Capabilities</a>
+        </li>
+
+        <li>
+            <a href="#intelligence">AI Intelligence</a>
+        </li>
+
+        <li>
+            <a href="#security">Protection</a>
+        </li>
+
+        <li>
+            <a href="#about">About</a>
+        </li>
+
+    </ul>
+
+
+    <div class="nav-actions">
+
+        <a href="{% url 'login' %}"
+           class="login-btn">
+            Login
+        </a>
+
+        <a href="{% url 'register' %}"
+           class="register-btn">
+            Open Account
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero"
+         id="home">
+
+
+    <div class="hero-left">
+
+
+        <div class="eyebrow">
+
+            <span class="status-dot"></span>
+
+            INTELLIGENT BANKING PLATFORM
+
+        </div>
+
+
+        <h1>
+
+            Banking intelligence
+            <span>built around you.</span>
+
+        </h1>
+
+
+        <p class="hero-description">
+
+            EthosBank AI combines everyday digital banking with
+            artificial intelligence to help consumers manage money,
+            understand financial risks, identify suspicious offers
+            and make safer financial decisions.
+
+        </p>
+
+
+        <div class="hero-actions">
+
+            <a href="{% url 'register' %}"
+               class="primary-btn">
+
+                Open Your Account
+                <span>→</span>
+
+            </a>
+
+
+            <a href="{% url 'login' %}"
+               class="secondary-btn">
+
+                Access Banking
+
+            </a>
+
+        </div>
+
+
+        <div class="hero-trust">
+
+            <div>
+                <strong>01</strong>
+                <span>Digital Banking</span>
+            </div>
+
+            <div>
+                <strong>02</strong>
+                <span>AI Analytics</span>
+            </div>
+
+            <div>
+                <strong>03</strong>
+                <span>Consumer Protection</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- HERO SYSTEM PANEL -->
+
+    <div class="hero-right">
+
+
+        <div class="system-window">
+
+
+            <div class="window-header">
+
+                <div class="window-title">
+
+                    <span class="live-dot"></span>
+
+                    ETHOSBANK AI
+                    <small>INTELLIGENCE ENGINE</small>
+
+                </div>
+
+
+                <div class="window-controls">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="system-body">
+
+
+                <div class="system-heading">
+
+                    <div>
+
+                        <small>CONSUMER FINANCIAL PROFILE</small>
+
+                        <h3>AI Protection Overview</h3>
+
+                    </div>
+
+                    <div class="system-status">
+                        ACTIVE
+                    </div>
+
+                </div>
+
+
+
+                <div class="metric-grid">
+
+
+                    <div class="metric">
+
+                        <span>WELLNESS</span>
+
+                        <strong>AI</strong>
+
+                        <small>
+                            Financial Wellness
+                        </small>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>DEBT RISK</span>
+
+                        <strong>AI</strong>
+
+                        <small>
+                            Risk Assessment
+                        </small>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>OFFER SCAN</span>
+
+                        <strong>ON</strong>
+
+                        <small>
+                            Transparency Analysis
+                        </small>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>TRANSACTIONS</span>
+
+                        <strong>ON</strong>
+
+                        <small>
+                            Transaction Monitoring
+                        </small>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="activity-panel">
+
+                    <div class="activity-title">
+
+                        <span>
+                            AI SYSTEM ACTIVITY
+                        </span>
+
+                        <span class="activity-live">
+                            LIVE
+                        </span>
+
+                    </div>
+
+
+                    <div class="activity-row">
+
+                        <span class="activity-icon">
+                            ✓
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Financial Wellness
+                            </strong>
+
+                            <small>
+                                Spending behaviour analysed
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity-row">
+
+                        <span class="activity-icon">
+                            ✓
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Debt Risk
+                            </strong>
+
+                            <small>
+                                Financial risk profile evaluated
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity-row">
+
+                        <span class="activity-icon">
+                            ✓
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Consumer Protection
+                            </strong>
+
+                            <small>
+                                Suspicious financial patterns monitored
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PLATFORM STRIP
+========================================================= -->
+
+<section class="platform-strip">
+
+    <div>
+
+        <span>01</span>
+
+        <strong>
+            BANKING
+        </strong>
+
+        <p>
+            Everyday financial operations
+        </p>
+
+    </div>
+
+
+    <div>
+
+        <span>02</span>
+
+        <strong>
+            INTELLIGENCE
+        </strong>
+
+        <p>
+            AI-powered financial analysis
+        </p>
+
+    </div>
+
+
+    <div>
+
+        <span>03</span>
+
+        <strong>
+            PROTECTION
+        </strong>
+
+        <p>
+            Fraud and manipulation detection
+        </p>
+
+    </div>
+
+
+    <div>
+
+        <span>04</span>
+
+        <strong>
+            TRANSPARENCY
+        </strong>
+
+        <p>
+            Consumer-first financial decisions
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CAPABILITIES
+========================================================= -->
+
+<section class="section"
+         id="capabilities">
+
+
+    <div class="section-heading">
+
+        <div>
+
+            <span class="section-label">
+                BANKING PLATFORM
+            </span>
+
+            <h2>
+                Everything you need
+                <br>
+                for everyday banking.
+            </h2>
+
+        </div>
+
+
+        <p>
+
+            EthosBank AI brings essential banking operations
+            and intelligent financial services together in
+            one consumer-focused platform.
+
+        </p>
+
+    </div>
+
+
+
+    <div class="capability-grid">
+
+
+        <!-- WALLET -->
+
+        <div class="capability-card large">
+
+            <div class="card-number">
+                01
+            </div>
+
+            <div class="card-icon">
+                ₹
+            </div>
+
+            <h3>
+                Digital Wallet
+            </h3>
+
+            <p>
+
+                Manage your available balance and
+                monitor your financial activity from
+                a centralized banking dashboard.
+
+            </p>
+
+            <div class="card-link">
+                WALLET
+                <span>→</span>
+            </div>
+
+        </div>
+
+
+
+        <!-- TRANSACTIONS -->
+
+        <div class="capability-card">
+
+            <div class="card-number">
+                02
+            </div>
+
+            <div class="card-icon">
+                ↔
+            </div>
+
+            <h3>
+                Transactions
+            </h3>
+
+            <p>
+
+                View and track deposits, withdrawals,
+                transfers and other financial activity
+                through transaction history.
+
+            </p>
+
+            <div class="card-link">
+                TRANSACTION MONITORING
+                <span>→</span>
+            </div>
+
+        </div>
+
+
+
+        <!-- TRANSFER -->
+
+        <div class="capability-card">
+
+            <div class="card-number">
+                03
+            </div>
+
+            <div class="card-icon">
+                ⇄
+            </div>
+
+            <h3>
+                Secure Transfers
+            </h3>
+
+            <p>
+
+                Transfer funds while verifying recipient
+                information before completing the transaction.
+
+            </p>
+
+            <div class="card-link">
+                RECIPIENT VERIFICATION
+                <span>→</span>
+            </div>
+
+        </div>
+
+
+
+        <!-- DEPOSIT WITHDRAW -->
+
+        <div class="capability-card">
+
+            <div class="card-number">
+                04
+            </div>
+
+            <div class="card-icon">
+                ↓↑
+            </div>
+
+            <h3>
+                Deposit & Withdraw
+            </h3>
+
+            <p>
+
+                Perform essential banking operations
+                directly from the consumer dashboard.
+
+            </p>
+
+            <div class="card-link">
+                CORE BANKING
+                <span>→</span>
+            </div>
+
+        </div>
+
+
+
+        <!-- INVESTMENTS -->
+
+        <div class="capability-card large">
+
+            <div class="card-number">
+                05
+            </div>
+
+            <div class="card-icon">
+                ◫
+            </div>
+
+            <h3>
+                Savings & Deposit Products
+            </h3>
+
+            <p>
+
+                Access financial products including
+                Fixed Deposit, Recurring Deposit and
+                Passion Fund options through the banking
+                interface.
+
+            </p>
+
+            <div class="product-tags">
+
+                <span>FIXED DEPOSIT</span>
+
+                <span>RECURRING DEPOSIT</span>
+
+                <span>PASSION FUND</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     AI INTELLIGENCE
+========================================================= -->
+
+<section class="intelligence-section"
+         id="intelligence">
+
+
+    <div class="intelligence-header">
+
+        <span class="section-label">
+            ETHOS INTELLIGENCE ENGINE
+        </span>
+
+        <h2>
+            Your financial data,
+            <span>turned into insight.</span>
+        </h2>
+
+        <p>
+
+            EthosBank AI goes beyond conventional digital banking.
+            Its intelligence layer analyses financial behaviour
+            and produces insights designed to help consumers
+            understand financial risks.
+
+        </p>
+
+    </div>
+
+
+
+    <div class="intelligence-grid">
+
+
+        <!-- WELLNESS -->
+
+        <div class="ai-card">
+
+            <div class="ai-top">
+
+                <span class="ai-id">
+                    AI / 01
+                </span>
+
+                <span class="ai-status">
+                    ANALYTICS
+                </span>
+
+            </div>
+
+
+            <div class="ai-symbol">
+                ◉
+            </div>
+
+
+            <h3>
+                Financial Wellness AI
+            </h3>
+
+
+            <p>
+
+                Analyse spending behaviour and financial
+                patterns to provide a clearer picture of
+                overall financial wellness.
+
+            </p>
+
+
+            <ul>
+
+                <li>Spending pattern analysis</li>
+
+                <li>Financial behaviour insights</li>
+
+                <li>Wellness assessment</li>
+
+            </ul>
+
+        </div>
+
+
+
+        <!-- DEBT -->
+
+        <div class="ai-card">
+
+            <div class="ai-top">
+
+                <span class="ai-id">
+                    AI / 02
+                </span>
+
+                <span class="ai-status">
+                    RISK ENGINE
+                </span>
+
+            </div>
+
+
+            <div class="ai-symbol">
+                △
+            </div>
+
+
+            <h3>
+                Debt Risk Analysis
+            </h3>
+
+
+            <p>
+
+                AI-based analysis helps identify patterns
+                associated with increasing financial
+                pressure and debt risk.
+
+            </p>
+
+
+            <ul>
+
+                <li>Debt risk assessment</li>
+
+                <li>Financial risk insights</li>
+
+                <li>AI explanations</li>
+
+            </ul>
+
+        </div>
+
+
+
+        <!-- OFFER SCAN -->
+
+        <div class="ai-card featured">
+
+            <div class="ai-top">
+
+                <span class="ai-id">
+                    AI / 03
+                </span>
+
+                <span class="ai-status">
+                    NLP
+                </span>
+
+            </div>
+
+
+            <div class="ai-symbol">
+                ⌕
+            </div>
+
+
+            <h3>
+                Manipulative Offer Detection
+            </h3>
+
+
+            <p>
+
+                Analyse financial offers and messages for
+                potentially manipulative language, suspicious
+                claims and consumer-risk patterns.
+
+            </p>
+
+
+            <ul>
+
+                <li>Offer scanning</li>
+
+                <li>Manipulation detection</li>
+
+                <li>Transparency analysis</li>
+
+            </ul>
+
+        </div>
+
+
+
+        <!-- FEE SHIELD -->
+
+        <div class="ai-card">
+
+            <div class="ai-top">
+
+                <span class="ai-id">
+                    AI / 04
+                </span>
+
+                <span class="ai-status">
+                    PROTECTION
+                </span>
+
+            </div>
+
+
+            <div class="ai-symbol">
+                ◈
+            </div>
+
+
+            <h3>
+                Financial Statistics
+            </h3>
+
+
+            <p>
+
+                Visualise financial activity and spending patterns through interactive charts and transaction-based insights.
+
+            </p>
+
+
+            <ul>
+
+                <li>Financial visualisations</li>
+
+                <li>Transaction analytics</li>
+
+                <li>Spending & income trends</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ELDER PROTECTION
+========================================================= -->
+
+<section class="protection-section"
+         id="security">
+
+
+    <div class="protection-content">
+
+
+        <span class="section-label">
+            VULNERABILITY PROTECTION
+        </span>
+
+
+        <h2>
+
+            Banking that
+            <span>protects the vulnerable.</span>
+
+        </h2>
+
+
+        <p>
+
+            EthosBank AI includes dedicated protection mechanisms
+            for users who may be more vulnerable to financial
+            fraud, suspicious transactions and deceptive financial
+            communication.
+
+        </p>
+
+
+        <div class="protection-list">
+
+
+            <div class="protection-item">
+
+                <span>01</span>
+
+                <div>
+
+                    <strong>
+                        Elder Fraud Protection
+                    </strong>
+
+                    <p>
+                        Identify potentially suspicious
+                        financial activity and risk patterns.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="protection-item">
+
+                <span>02</span>
+
+                <div>
+
+                    <strong>
+                        Suspicious Activity Awareness
+                    </strong>
+
+                    <p>
+                        Highlight financial situations that
+                        may require additional attention.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="protection-item">
+
+                <span>03</span>
+
+                <div>
+
+                    <strong>
+                        Ethical Financial Intelligence
+                    </strong>
+
+                    <p>
+                        Help consumers understand potentially
+                        manipulative financial practices.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <div class="protection-visual">
+
+
+        <div class="security-panel">
+
+
+            <div class="security-header">
+
+                <span>
+                    PROTECTION STATUS
+                </span>
+
+                <strong>
+                    ACTIVE
+                </strong>
+
+            </div>
+
+
+            <div class="shield">
+
+                <div class="shield-inner">
+                    EB
+                </div>
+
+            </div>
+
+
+            <div class="security-message">
+
+                <strong>
+                    Consumer Protection Layer
+                </strong>
+
+                <p>
+                    AI-assisted monitoring and
+                    financial risk awareness.
+                </p>
+
+            </div>
+
+
+            <div class="security-lines">
+
+                <div>
+                    <span>OFFER ANALYSIS</span>
+                    <b>ENABLED</b>
+                </div>
+
+                <div>
+                    <span>TRANSACTION MONITORING</span>
+                    <b>ENABLED</b>
+                </div>
+
+                <div>
+                    <span>RISK ANALYSIS</span>
+                    <b>ENABLED</b>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     DASHBOARD EXPERIENCE
+========================================================= -->
+
+<section class="dashboard-section">
+
+
+    <div class="dashboard-heading">
+
+        <span class="section-label">
+            CONSUMER CONTROL CENTER
+        </span>
+
+        <h2>
+            One dashboard.
+            <span>Your complete financial view.</span>
+        </h2>
+
+        <p>
+
+            Access banking operations, transactions and
+            AI-powered financial intelligence from a
+            centralized consumer interface.
+
+        </p>
+
+    </div>
+
+
+
+    <div class="dashboard-mockup">
+
+
+        <div class="mock-sidebar">
+
+
+            <div class="mock-logo">
+                EB
+            </div>
+
+
+            <div class="mock-nav active">
+                <span>⌂</span>
+                Dashboard
+            </div>
+
+
+            <div class="mock-nav">
+                <span>₹</span>
+                Wallet
+            </div>
+
+
+            <div class="mock-nav">
+                <span>⇄</span>
+                Transfers
+            </div>
+
+
+            <div class="mock-nav">
+                <span>▤</span>
+                Transactions
+            </div>
+
+
+            <div class="mock-nav">
+                <span>◉</span>
+                Wellness AI
+            </div>
+
+
+            <div class="mock-nav">
+                <span>⌕</span>
+                Offer Scan
+            </div>
+
+
+            <div class="mock-nav">
+                <span>⛨</span>
+                Financial Profile
+            </div>
+
+        </div>
+
+
+
+        <div class="mock-content">
+
+
+            <div class="mock-topbar">
+
+                <div>
+
+                    <small>
+                        CONSUMER DASHBOARD
+                    </small>
+
+                    <h3>
+                        Financial Overview
+                    </h3>
+
+                </div>
+
+                <span class="mock-user">
+                    USER
+                </span>
+
+            </div>
+
+
+
+            <div class="mock-cards">
+
+
+                <div class="mock-card">
+
+                    <small>
+                        WALLET BALANCE
+                    </small>
+
+                    <strong>
+                        ₹ ——
+                    </strong>
+
+                    <span>
+                        Available Balance
+                    </span>
+
+                </div>
+
+
+                <div class="mock-card">
+
+                    <small>
+                        FINANCIAL WELLNESS
+                    </small>
+
+                    <strong>
+                        AI
+                    </strong>
+
+                    <span>
+                        Intelligent Analysis
+                    </span>
+
+                </div>
+
+
+                <div class="mock-card">
+
+                    <small>
+                        SECURITY
+                    </small>
+
+                    <strong>
+                        ACTIVE
+                    </strong>
+
+                    <span>
+                        Protection Layer
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="mock-bottom">
+
+
+                <div class="mock-chart">
+
+                    <div class="chart-title">
+
+                        <strong>
+                            Financial Activity
+                        </strong>
+
+                        <span>
+                            TRANSACTIONS
+                        </span>
+
+                    </div>
+
+
+                    <div class="fake-chart">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="mock-insight">
+
+                    <span>
+                        AI INSIGHT
+                    </span>
+
+                    <h4>
+                        Financial Intelligence
+                    </h4>
+
+                    <p>
+                        AI-generated insights help you
+                        understand your financial behaviour
+                        and potential risks.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     HOW IT WORKS
+========================================================= -->
+
+<section class="workflow-section">
+
+
+    <div class="workflow-heading">
+
+        <span class="section-label">
+            PLATFORM WORKFLOW
+        </span>
+
+        <h2>
+            From transaction
+            <span>to intelligence.</span>
+        </h2>
+
+    </div>
+
+
+
+    <div class="workflow">
+
+
+        <div class="workflow-step">
+
+            <div class="workflow-number">
+                01
+            </div>
+
+            <h3>
+                Bank
+            </h3>
+
+            <p>
+                Manage deposits, withdrawals,
+                transfers and financial products.
+            </p>
+
+        </div>
+
+
+        <div class="workflow-line"></div>
+
+
+        <div class="workflow-step">
+
+            <div class="workflow-number">
+                02
+            </div>
+
+            <h3>
+                Analyse
+            </h3>
+
+            <p>
+                Financial activity is used to
+                generate meaningful insights.
+            </p>
+
+        </div>
+
+
+        <div class="workflow-line"></div>
+
+
+        <div class="workflow-step">
+
+            <div class="workflow-number">
+                03
+            </div>
+
+            <h3>
+                Detect
+            </h3>
+
+            <p>
+                Identify financial risks,
+                suspicious offers and patterns.
+            </p>
+
+        </div>
+
+
+        <div class="workflow-line"></div>
+
+
+        <div class="workflow-step">
+
+            <div class="workflow-number">
+                04
+            </div>
+
+            <h3>
+                Protect
+            </h3>
+
+            <p>
+                Deliver AI insights that support
+                safer financial decisions.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ETHICAL BANKING
+========================================================= -->
+
+<section class="ethical-section"
+         id="about">
+
+
+    <div class="ethical-left">
+
+        <span class="section-label">
+            WHY ETHOSBANK AI
+        </span>
+
+        <h2>
+
+            Banking should
+            <span>work for the consumer.</span>
+
+        </h2>
+
+    </div>
+
+
+    <div class="ethical-right">
+
+        <p>
+
+            Traditional digital banking focuses primarily
+            on moving money. EthosBank AI adds an intelligence
+            layer designed to help consumers understand
+            how their money is being managed and where
+            potential financial risks may exist.
+
+        </p>
+
+
+        <div class="principles">
+
+
+            <div>
+
+                <strong>
+                    TRANSPARENT
+                </strong>
+
+                <span>
+                    Clear financial information
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    INTELLIGENT
+                </strong>
+
+                <span>
+                    AI-assisted financial analysis
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    PROTECTIVE
+                </strong>
+
+                <span>
+                    Consumer risk awareness
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    ETHICAL
+                </strong>
+
+                <span>
+                    Consumer-first financial intelligence
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section class="final-cta">
+
+
+    <div class="cta-content">
+
+        <span class="section-label">
+            ETHOSBANK AI
+        </span>
+
+
+        <h2>
+            Take control of
+            <span>your financial intelligence.</span>
+        </h2>
+
+
+        <p>
+
+            Experience banking combined with
+            AI-powered financial wellness,
+            risk analysis and consumer protection.
+
+        </p>
+
+
+        <div class="cta-buttons">
+
+            <a href="{% url 'register' %}"
+               class="primary-btn">
+
+                Open an Account
+                <span>→</span>
+
+            </a>
+
+
+            <a href="{% url 'login' %}"
+               class="secondary-btn">
+
+                Login to EthosBank
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+
+    <div class="footer-main">
+
+
+        <div class="footer-brand">
+
+            <div class="logo-area">
+
+                <div class="logo-mark">
+                    EB
+                </div>
+
+                <div class="logo-text">
+
+                    <strong>
+                        EthosBank
+                    </strong>
+
+                    <span>
+                        AI
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <p>
+
+                AI-powered ethical banking and
+                consumer financial protection.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="footer-column">
+
+            <h4>
+                BANKING
+            </h4>
+
+            <a href="#capabilities">
+                Wallet
+            </a>
+
+            <a href="#capabilities">
+                Transactions
+            </a>
+
+            <a href="#capabilities">
+                Transfers
+            </a>
+
+            <a href="#capabilities">
+                Deposit Products
+            </a>
+
+        </div>
+
+
+
+        <div class="footer-column">
+
+            <h4>
+                INTELLIGENCE
+            </h4>
+
+            <a href="#intelligence">
+                Financial Wellness
+            </a>
+
+            <a href="#intelligence">
+                Debt Risk
+            </a>
+
+            <a href="#intelligence">
+                Offer Scan
+            </a>
+
+            <a href="#security">
+                Financial Profile
+            </a>
+
+        </div>
+
+
+
+        <div class="footer-column">
+
+            <h4>
+                PLATFORM
+            </h4>
+
+            <a href="#security">
+                Protection
+            </a>
+
+            <a href="#about">
+                About EthosBank
+            </a>
+
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+
+            <a href="{% url 'register' %}">
+                Register
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © 2026 EthosBank AI
+        </span>
+
+        <span>
+            Ethical Banking • Financial Intelligence • Consumer Protection
+        </span>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

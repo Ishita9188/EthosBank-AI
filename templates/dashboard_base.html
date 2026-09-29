@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'D:\Semester5\EthosBankAI - 2\static\css\dashboard_base.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <h2>EthosBank AI</h2>
+
+            <ul>
+
+                <li>
+                    <a href="{% url 'consumer_dashboard' %}" class="{% if request.resolver_match.url_name == 'consumer_dashboard' %}active{% endif %}">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'wallet' %}" class="{% if request.resolver_match.url_name == 'wallet' %}active{% endif %}">
+                        Wallet
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'deposit' %}" class="{% if request.resolver_match.url_name == 'deposit' %}active{% endif %}">
+                        Deposit
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'withdraw' %}" class="{% if request.resolver_match.url_name == 'withdraw' %}active{% endif %}">
+                        Withdraw
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'transfer' %}" class="{% if request.resolver_match.url_name == 'transfer' %}active{% endif %}">
+                        Transfer
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'transactions' %}" class="{% if request.resolver_match.url_name == 'transactions' %}active{% endif %}">
+                        Transactions
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'financial_profile' %}" class="{% if request.resolver_match.url_name == 'financial_profile' %}active{% endif %}">
+                        Financial Profile
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'financial_wellness' %}" class="{% if request.resolver_match.url_name == 'financial_wellness' %}active{% endif %}">
+                        Wellness AI
+                    </a>
+                </li>
+
+                <li>
+                    <a href=" {% url 'offer_scan' %}" class="{% if request.resolver_match.url_name == 'offer_scan' %}active{% endif %}">
+                        Offer Scan
+                    </a>
+                </li>
+                {% if request.session.role == 'elder' %}
+                <li>
+                    <a href="{% url 'elder_benefits' %}" class="{% if request.resolver_match.url_name == 'elder_benefits' %}active{% endif %}">
+                        Elder User Benefits
+                    </a>
+                </li>
+                {% endif %}
+
+                <li>
+                    <a href="{% url 'logout' %}">
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- PAGE CONTENT -->
+
+        <div class="main-content">
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

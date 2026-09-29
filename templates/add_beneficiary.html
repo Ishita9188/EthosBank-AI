@@ -1,0 +1,137 @@
+{% extends 'dashboard_base.html' %}
+
+{% load static %}
+
+{% block title %}
+Add Beneficiary
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{% static 'css/beneficiaries.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="topbar">
+    <h1>Add Beneficiary</h1>
+</div>
+
+<div class="section form-section">
+
+    <h2>Save New Recipient</h2>
+
+    <p>
+        Add a trusted recipient for faster future transfers.
+    </p>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>
+                    Beneficiary Name
+                </label>
+
+                <input
+                    type="text"
+                    name="beneficiary_name"
+                    maxlength="100"
+                    required
+                    placeholder="Enter beneficiary name">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Nickname
+                </label>
+
+                <input
+                    type="text"
+                    name="nickname"
+                    maxlength="50"
+                    placeholder="Optional nickname">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Account Number
+                </label>
+
+                <input
+                    type="text"
+                    name="beneficiary_account"
+                    maxlength="30"
+                    required
+                    placeholder="Enter account number">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    IFSC Code
+                </label>
+
+                <input
+                    type="text"
+                    name="ifsc_code"
+                    maxlength="11"
+                    required
+                    placeholder="e.g. HDFC0001234"
+                    style="text-transform: uppercase;">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Bank Name
+                </label>
+
+                <input
+                    type="text"
+                    name="beneficiary_bank"
+                    maxlength="100"
+                    required
+                    placeholder="Enter bank name">
+
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+
+            <button type="submit"
+                    class="primary-btn">
+                Save Beneficiary
+            </button>
+
+            <a href="{% url 'beneficiaries' %}"
+               class="secondary-btn">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
