@@ -16,12 +16,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z9*mre#hrbo-osu1ro#od#25sc66f!85*y@8&1_eo7jtwt@$ff'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -77,20 +71,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -107,10 +93,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Kolkata'
@@ -120,17 +102,14 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
 STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-RECAPTCHA_SITE_KEY = "6LdXfJItAAAAAJ2FRiwOpPQkm95laKSomT3Byx10"
-RECAPTCHA_SECRET_KEY = "6LdXfJItAAAAAHYfWmLxZF3GNuVja1URiJk3JQjB"
+RECAPTCHA_SITE_KEY = ""
+RECAPTCHA_SECRET_KEY = ""
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
